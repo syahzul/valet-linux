@@ -13,12 +13,12 @@ class PhpFpm
     /**
      * Create a new PHP FPM class instance.
      *
-     * @param  Ubuntu  $ubuntu
-     * @param  CommandLine  $cli
+     * @param  Linux       $ubuntu
+     * @param  CommandLine $cli
      * @param  Filesystem  $files
      * @return void
      */
-    public function __construct(Ubuntu $ubuntu, CommandLine $cli, Filesystem $files)
+    public function __construct(Linux $ubuntu, CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
         $this->ubuntu = $ubuntu;

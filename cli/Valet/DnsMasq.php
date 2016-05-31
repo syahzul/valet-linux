@@ -15,12 +15,12 @@ class DnsMasq
     /**
      * Create a new DnsMasq instance.
      *
-     * @param  Ubuntu  $ubuntu
-     * @param  CommandLine  $cli
+     * @param  Linux       $ubuntu
+     * @param  CommandLine $cli
      * @param  Filesystem  $files
      * @return void
      */
-    function __construct(Ubuntu $ubuntu, CommandLine $cli, Filesystem $files)
+    function __construct(Linux $ubuntu, CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
         $this->ubuntu = $ubuntu;

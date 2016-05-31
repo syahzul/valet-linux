@@ -1,6 +1,6 @@
 <?php
 
-use Valet\Ubuntu;
+use Valet\Linux;
 use Valet\Filesystem;
 use Valet\CommandLine;
 use Illuminate\Container\Container;
@@ -23,7 +23,7 @@ class UbuntuTest extends PHPUnit_Framework_TestCase
 
     public function test_apt_can_be_resolved_from_container()
     {
-        $this->assertInstanceOf(Ubuntu::class, resolve(Ubuntu::class));
+        $this->assertInstanceOf(Linux::class, resolve(Linux::class));
     }
 
 
@@ -34,7 +34,7 @@ class UbuntuTest extends PHPUnit_Framework_TestCase
             ->with('dpkg -l | grep '.get_config('php-latest').' | sed \'s_  _\t_g\' | cut -f 2')
             ->andReturn(get_config('php-latest'));
         swap(CommandLine::class, $cli);
-        $this->assertTrue(resolve(Ubuntu::class)->installed(get_config('php-latest')));
+        $this->assertTrue(resolve(Linux::class)->installed(get_config('php-latest')));
 
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('run')->once()
@@ -42,7 +42,7 @@ class UbuntuTest extends PHPUnit_Framework_TestCase
             ->andReturn('php7.0-mcrypt
 php7.0');
         swap(CommandLine::class, $cli);
-        $this->assertTrue(resolve(Ubuntu::class)->installed(get_config('php-latest')));
+        $this->assertTrue(resolve(Linux::class)->installed(get_config('php-latest')));
     }
 
 
@@ -53,14 +53,14 @@ php7.0');
             ->with('dpkg -l | grep '.get_config('php-latest').' | sed \'s_  _\t_g\' | cut -f 2')
             ->andReturn('');
         swap(CommandLine::class, $cli);
-        $this->assertFalse(resolve(Ubuntu::class)->installed(get_config('php-latest')));
+        $this->assertFalse(resolve(Linux::class)->installed(get_config('php-latest')));
 
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('run')->once()
             ->with('dpkg -l | grep '.get_config('php-latest').' | sed \'s_  _\t_g\' | cut -f 2')
             ->andReturn('php7.0-mcrypt');
         swap(CommandLine::class, $cli);
-        $this->assertFalse(resolve(Ubuntu::class)->installed(get_config('php-latest')));
+        $this->assertFalse(resolve(Linux::class)->installed(get_config('php-latest')));
 
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('run')->once()
@@ -69,25 +69,25 @@ php7.0');
 php7.0-something-else
 php7');
         swap(CommandLine::class, $cli);
-        $this->assertFalse(resolve(Ubuntu::class)->installed(get_config('php-latest')));
+        $this->assertFalse(resolve(Linux::class)->installed(get_config('php-latest')));
     }
 
 
     public function test_has_installed_php_indicates_if_php_is_installed_via_apt()
     {
-        $apt = Mockery::mock(Ubuntu::class.'[installed]', [new CommandLine, new Filesystem]);
+        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine, new Filesystem]);
         $apt->shouldReceive('installed')->once()->with(get_config('php-latest'))->andReturn(true);
         $apt->shouldReceive('installed')->with(get_config('php-56'))->andReturn(true);
         $apt->shouldReceive('installed')->with(get_config('php-55'))->andReturn(true);
         $this->assertTrue($apt->hasInstalledPhp());
 
-        $apt = Mockery::mock(Ubuntu::class.'[installed]', [new CommandLine, new Filesystem]);
+        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine, new Filesystem]);
         $apt->shouldReceive('installed')->once()->with(get_config('php-latest'))->andReturn(true);
         $apt->shouldReceive('installed')->with(get_config('php-56'))->andReturn(false);
         $apt->shouldReceive('installed')->with(get_config('php-55'))->andReturn(false);
         $this->assertTrue($apt->hasInstalledPhp());
 
-        $apt = Mockery::mock(Ubuntu::class.'[installed]', [new CommandLine, new Filesystem]);
+        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine, new Filesystem]);
         $apt->shouldReceive('installed')->once()->with(get_config('php-latest'))->andReturn(false);
         $apt->shouldReceive('installed')->once()->with(get_config('php-56'))->andReturn(false);
         $apt->shouldReceive('installed')->once()->with(get_config('php-55'))->andReturn(false);
@@ -100,7 +100,7 @@ php7');
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('quietly')->once()->with('sudo service dnsmasq restart');
         swap(CommandLine::class, $cli);
-        resolve(Ubuntu::class)->restartService('dnsmasq');
+        resolve(Linux::class)->restartService('dnsmasq');
     }
 
 
@@ -109,7 +109,7 @@ php7');
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('quietly')->once()->with('sudo service dnsmasq stop');
         swap(CommandLine::class, $cli);
-        resolve(Ubuntu::class)->stopService('dnsmasq');
+        resolve(Linux::class)->stopService('dnsmasq');
     }
 
 
@@ -119,13 +119,13 @@ php7');
         $files->shouldReceive('isLink')->once()->with(get_config('php-bin'))->andReturn(true);
         $files->shouldReceive('readLink')->once()->with(get_config('php-bin'))->andReturn('/test/path/php7.0/test');
         swap(Filesystem::class, $files);
-        $this->assertEquals(get_config('php-latest'), resolve(Ubuntu::class)->linkedPhp());
+        $this->assertEquals(get_config('php-latest'), resolve(Linux::class)->linkedPhp());
 
         $files = Mockery::mock(Filesystem::class);
         $files->shouldReceive('isLink')->once()->with(get_config('php-bin'))->andReturn(true);
         $files->shouldReceive('readLink')->once()->with(get_config('php-bin'))->andReturn('/test/path/php5.6/test');
         swap(Filesystem::class, $files);
-        $this->assertEquals(get_config('php-56'), resolve(Ubuntu::class)->linkedPhp());
+        $this->assertEquals(get_config('php-56'), resolve(Linux::class)->linkedPhp());
     }
 
 
@@ -137,7 +137,7 @@ php7');
         $files = Mockery::mock(Filesystem::class);
         $files->shouldReceive('isLink')->once()->with(get_config('php-bin'))->andReturn(false);
         swap(Filesystem::class, $files);
-        resolve(Ubuntu::class)->linkedPhp();
+        resolve(Linux::class)->linkedPhp();
     }
 
 
@@ -150,7 +150,7 @@ php7');
         $files->shouldReceive('isLink')->once()->with(get_config('php-bin'))->andReturn(true);
         $files->shouldReceive('readLink')->once()->with(get_config('php-bin'))->andReturn('/test/path/php42/test');
         swap(Filesystem::class, $files);
-        resolve(Ubuntu::class)->linkedPhp();
+        resolve(Linux::class)->linkedPhp();
     }
 
 
@@ -159,7 +159,7 @@ php7');
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('run')->once()->with('apt-get install dnsmasq', Mockery::type('Closure'));
         swap(CommandLine::class, $cli);
-        resolve(Ubuntu::class)->installOrFail('dnsmasq');
+        resolve(Linux::class)->installOrFail('dnsmasq');
     }
 
 
@@ -173,6 +173,6 @@ php7');
             $onError('test error ouput');
         });
         swap(CommandLine::class, $cli);
-        resolve(Ubuntu::class)->installOrFail('dnsmasq');
+        resolve(Linux::class)->installOrFail('dnsmasq');
     }
 }

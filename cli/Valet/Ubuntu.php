@@ -1,26 +1,18 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: gordo
+ * Date: 31/05/16
+ * Time: 11:55 AM
+ */
 
 namespace Valet;
 
-use Exception;
-use DomainException;
 
-class Ubuntu
+class Ubuntu extends Linux
 {
     var $cli, $files;
-
-    /**
-     * Create a new Ubuntu instance.
-     *
-     * @param  CommandLine  $cli
-     * @param  Filesystem  $files
-     * @return void
-     */
-    function __construct(CommandLine $cli, Filesystem $files)
-    {
-        $this->cli = $cli;
-        $this->files = $files;
-    }
+    
 
     /**
      * Determine if the given formula is installed.
@@ -28,35 +20,11 @@ class Ubuntu
      * @param  string  $package
      * @return bool
      */
-    function installed($package)
+    function installed(string $package) :bool
     {
         return in_array($package, explode(PHP_EOL, $this->cli->run('dpkg -l | grep '.$package.' | sed \'s_  _\t_g\' | cut -f 2')));
     }
-
-    /**
-     * Determine if a compatible PHP version is installed.
-     *
-     * @return bool
-     */
-    function hasInstalledPhp()
-    {
-        return $this->installed(get_config('php-latest'))
-            || $this->installed(get_config('php-56'))
-            || $this->installed(get_config('php-55'));
-    }
-
-    /**
-     * Ensure that the given formula is installed.
-     *
-     * @param  string  $package
-     * @return void
-     */
-    function ensureInstalled($package)
-    {
-        if (! $this->installed($package)) {
-            $this->installOrFail($package);
-        }
-    }
+    
 
     /**
      * Install the given formula and throw an exception on failure.
@@ -64,14 +32,14 @@ class Ubuntu
      * @param  string  $package
      * @return void
      */
-    function installOrFail($package)
+    function installOrFail(string $package)
     {
-        output('<info>['.$package.'] is not installed, installing it now via Ubuntu...</info> 🍻');
+        output('<info>['.$package.'] is not installed, installing it now...</info> 🍻');
 
         $this->cli->run('apt-get install '.$package, function ($errorOutput) use ($package) {
             output($errorOutput);
 
-            throw new DomainException('Ubuntu was unable to install ['.$package.'].');
+            throw new DomainException('Unable to install ['.$package.'].');
         });
     }
 
@@ -108,7 +76,7 @@ class Ubuntu
      *
      * @return string
      */
-    function linkedPhp()
+    function linkedPhp() :string
     {
         if (! $this->files->isLink(get_config('php-bin'))) {
             throw new DomainException("Unable to determine linked PHP.");
