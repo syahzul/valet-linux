@@ -7,7 +7,7 @@ use Symfony\Component\Process\Process;
 
 class DnsMasq
 {
-    var $ubuntu, $cli, $files;
+    var $linux, $cli, $files;
 
     var $configPath = '/etc/dnsmasq.conf';
     var $exampleConfigPath;
@@ -15,15 +15,15 @@ class DnsMasq
     /**
      * Create a new DnsMasq instance.
      *
-     * @param  Linux       $ubuntu
+     * @param  Linux       $linux
      * @param  CommandLine $cli
      * @param  Filesystem  $files
      * @return void
      */
-    function __construct(Linux $ubuntu, CommandLine $cli, Filesystem $files)
+    function __construct(Linux $linux, CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
-        $this->ubuntu = $ubuntu;
+        $this->linux = $linux;
         $this->files = $files;
         $this->exampleConfigPath = $this->files->get(__DIR__.'/../stubs/dnsmasq.conf');
     }
@@ -35,7 +35,7 @@ class DnsMasq
      */
     function install($domain = 'dev')
     {
-        $this->ubuntu->ensureInstalled('dnsmasq');
+        $this->linux->ensureInstalled('dnsmasq');
         $this->manageDnsmasqManually();
 
         // For DnsMasq, we create our own custom configuration file which will be imported
@@ -45,7 +45,7 @@ class DnsMasq
 
         // $this->createDomainResolver($domain);
 
-        $this->ubuntu->restartService('dnsmasq');
+        $this->linux->restartService('dnsmasq');
     }
 
     /**
