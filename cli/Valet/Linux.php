@@ -2,18 +2,17 @@
 
 namespace Valet;
 
-use Exception;
-use DomainException;
 use Valet\Contracts\LinuxContract;
 
-abstract class Linux implements LinuxContract
+class Linux implements LinuxContract
 {
     var $cli, $files;
+    protected $distribution;
 
     /**
-     * Create a new Ubuntu instance.
+     * Create a new Linux instance.
      *
-     * @param  CommandLine  $cli
+     * @param  CommandLine $cli
      * @param  Filesystem  $files
      * @return void
      */
@@ -21,32 +20,49 @@ abstract class Linux implements LinuxContract
     {
         $this->cli = $cli;
         $this->files = $files;
+        $this->distribution = $this->getDistributionInstance();
     }
 
-    /**
-     * Determine if the given formula is installed.
-     *
-     * @param  string  $package
-     * @return bool
-     */
-    abstract function installed(string $package) :bool;
+    private function getDistributionInstance() : LinuxContract
+    {
+        $match = [];
+        preg_match('/.*-(\w*)/i', strtolower(php_uname("r")), $match);
+        switch ($match[1]) {
+            case "manjaro":
+            case "arch":
+                return new Arch($this->cli, $this->files);
+            default:
+                return new Ubuntu($this->cli, $this->files);
+        }
+    }
 
     /**
      * Determine if a compatible PHP version is installed.
      *
      * @return bool
      */
-    function hasInstalledPhp()
+    function hasInstalledPhp() :bool
     {
         return $this->installed(get_config('php-latest'))
-            || $this->installed(get_config('php-56'))
-            || $this->installed(get_config('php-55'));
+        || $this->installed(get_config('php-56'))
+        || $this->installed(get_config('php-55'));
+    }
+
+    /**
+     * Determine if the given formula is installed.
+     *
+     * @param  string $package
+     * @return bool
+     */
+    function installed(string $package) :bool
+    {
+        return $this->distribution->installed($package);
     }
 
     /**
      * Ensure that the given formula is installed.
      *
-     * @param  string  $package
+     * @param  string $package
      * @return void
      */
     function ensureInstalled(string $package)
@@ -59,29 +75,42 @@ abstract class Linux implements LinuxContract
     /**
      * Install the given formula and throw an exception on failure.
      *
-     * @param  string  $package
+     * @param  string $package
      * @return void
      */
-    abstract function installOrFail(string $package);
+    public function installOrFail(string $package)
+    {
+        $this->distribution->installOrFail($package);
+    }
 
     /**
      * Restart the given Homebrew services.
      *
      * @param
      */
-    abstract function restartService($services);
+    public function restartService($services)
+    {
+        $this->distribution->restartService($services);
+    }
 
     /**
      * Stop the given Homebrew services.
      *
      * @param
      */
-    abstract function stopService($services);
+    public function stopService($services)
+    {
+        $this->distribution->stopService($services);
+    }
 
     /**
      * Determine which version of PHP is linked in Homebrew.
      *
      * @return string
      */
-    abstract function linkedPhp() :string;
+    public function linkedPhp() :string
+    {
+        return $this->distribution->linkedPhp();
+    }
+
 }

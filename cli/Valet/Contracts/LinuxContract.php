@@ -12,8 +12,6 @@ namespace Valet\Contracts;
 interface LinuxContract
 {
     function installed(string $package) : bool;
-    function hasInstalledPhp(): bool;
-    function ensureInstalled(string $package);
     function installOrFail(string $package);
     function restartService($services);
     function stopService($services);

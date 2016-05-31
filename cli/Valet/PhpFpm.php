@@ -5,23 +5,24 @@ namespace Valet;
 use Exception;
 use DomainException;
 use Symfony\Component\Process\Process;
+use Valet\Contracts\LinuxContract;
 
 class PhpFpm
 {
-    public $ubuntu, $cli, $files;
+    public $linux, $cli, $files;
 
     /**
      * Create a new PHP FPM class instance.
      *
-     * @param  Linux       $ubuntu
+     * @param  Linux       $linux
      * @param  CommandLine $cli
      * @param  Filesystem  $files
      * @return void
      */
-    public function __construct(Linux $ubuntu, CommandLine $cli, Filesystem $files)
+    public function __construct(Linux $linux, CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
-        $this->ubuntu = $ubuntu;
+        $this->linux = $linux;
         $this->files = $files;
     }
 
@@ -32,10 +33,10 @@ class PhpFpm
      */
     public function install()
     {
-        if (! $this->ubuntu->installed(get_config('php-latest')) &&
-            ! $this->ubuntu->installed(get_config('php-56')) &&
-            ! $this->ubuntu->installed(get_config('php-55'))) {
-            $this->ubuntu->ensureInstalled(get_config('php-latest'));
+        if (! $this->linux->installed(get_config('php-latest')) &&
+            ! $this->linux->installed(get_config('php-56')) &&
+            ! $this->linux->installed(get_config('php-55'))) {
+            $this->linux->ensureInstalled(get_config('php-latest'));
         }
 
         $this->files->ensureDirExists('/var/log', user());
@@ -69,7 +70,7 @@ class PhpFpm
     {
         $this->stop();
 
-        $this->ubuntu->restartService(get_config('fpm-service'));
+        $this->linux->restartService(get_config('fpm-service'));
     }
 
     /**
@@ -79,7 +80,7 @@ class PhpFpm
      */
     public function stop()
     {
-        $this->ubuntu->stopService(
+        $this->linux->stopService(
             get_config('fpm55-service'),
             get_config('fpm56-service'),
             get_config('fpm-service')
@@ -93,11 +94,11 @@ class PhpFpm
      */
     public function fpmConfigPath()
     {
-        if ($this->ubuntu->linkedPhp() === get_config('php-latest')) {
+        if ($this->linux->linkedPhp() === get_config('php-latest')) {
             return get_config('fpm-config');
-        } elseif ($this->ubuntu->linkedPhp() === get_config('php-56')) {
+        } elseif ($this->linux->linkedPhp() === get_config('php-56')) {
             return get_config('fpm56-config');
-        } elseif ($this->ubuntu->linkedPhp() === get_config('php-55')) {
+        } elseif ($this->linux->linkedPhp() === get_config('php-55')) {
             return get_config('fpm55-config');
         } else {
             throw new DomainException('Unable to find php-fpm config.');

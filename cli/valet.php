@@ -35,8 +35,7 @@ if (is_dir(VALET_HOME_PATH)) {
  * Allow Valet to be run more conveniently by allowing the Node proxy to run password-less sudo.
  */
 $app->command('install', function () {
-    var_dump(func_get_args());
-    die();
+
     Caddy::stop();
 
     Configuration::install();
