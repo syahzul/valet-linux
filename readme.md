@@ -1,18 +1,18 @@
-# Laravel Valet *for Ubuntu*
+# Laravel Valet *for Linux*
 
-[![Build Status](https://travis-ci.org/cpriego/valet-ubuntu.svg?branch=master)](https://travis-ci.org/cpriego/valet-ubuntu)
-[![Latest Stable Version](https://poser.pugx.org/cpriego/valet-ubuntu/v/stable)](https://packagist.org/packages/cpriego/valet-ubuntu)
-[![Total Downloads](https://poser.pugx.org/cpriego/valet-ubuntu/downloads)](https://packagist.org/packages/cpriego/valet-ubuntu)
-[![Latest Unstable Version](https://poser.pugx.org/cpriego/valet-ubuntu/v/unstable)](https://packagist.org/packages/cpriego/valet-ubuntu)
-[![License](https://poser.pugx.org/cpriego/valet-ubuntu/license)](https://packagist.org/packages/cpriego/valet-ubuntu)
+[![Build Status](https://travis-ci.org/jmarcher/valet-linux.svg?branch=master)](https://travis-ci.org/jmarcher/valet-linux)
+[![Latest Stable Version](https://poser.pugx.org/jmarcher/valet-linux/v/stable)](https://packagist.org/packages/jmarcher/valet-linux)
+[![Total Downloads](https://poser.pugx.org/jmarcher/valet-linux/downloads)](https://packagist.org/packages/jmarcher/valet-linux)
+[![Latest Unstable Version](https://poser.pugx.org/jmarcher/valet-linux/v/unstable)](https://packagist.org/packages/jmarcher/valet-linuxu)
+[![License](https://poser.pugx.org/jmarcher/valet-linux/license)](https://packagist.org/packages/jmarcher/valet-linux)
 
 ## Introduction
 
-Valet *for Ubuntu* is a Laravel development environment for Ubuntu minimalists. No Vagrant, No Apache, No Nginx, No `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
+Valet *for Linux* is a Laravel development environment for Linux minimalists. No Vagrant, No Apache, No Nginx, No `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
 
-Laravel Valet *for Ubuntu* configures your system to always run [Caddy](https://caddyserver.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.dev` domain to point to sites installed on your local machine.
+Laravel Valet *for Linux* configures your system to always run [Caddy](https://caddyserver.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.dev` domain to point to sites installed on your local machine.
 
-In other words, a blazing fast Laravel development environment that uses roughly 7mb of RAM. Valet *for Ubuntu* isn't a complete replacement for Vagrant or Homestead, but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
+In other words, a blazing fast Laravel development environment that uses roughly 7mb of RAM. Valet *for Linux* isn't a complete replacement for Vagrant or Homestead, but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
 
 ## Official Documentation
 
@@ -20,7 +20,6 @@ Documentation for Valet can be found on the [Laravel website](http://laravel.com
 
 ## Requirements
 
- - Ubuntu >= 15.05 
  - PHP >= 5.6
  - PHP Packages: `php*-cli php*-common php*-curl php*-json php*-mbstring php*-mcrypt php*-mysql php*-opcache php*-readline php*-xml php*-zip`
  - Optional PHP Packages: `php*-sqlite3 php*-mysql php*-pgsql`
@@ -29,7 +28,7 @@ Documentation for Valet can be found on the [Laravel website](http://laravel.com
 
 ## Installation
 
-1. `composer global require cpriego/valet-ubuntu`
+1. `composer global require jmarcher/valet-linux`
 2. `valet install`
 
 ## Usage

@@ -1,7 +1,7 @@
 {
-    "name": "cpriego/valet-ubuntu",
-    "description": "A more enjoyable local development experience for Ubuntu.",
-    "keywords": ["laravel", "zonda", "wwdhhd", "ubuntu", "xenial", "16.04"],
+    "name": "jmarcher/valet-linux",
+    "description": "A more enjoyable local development experience for Linux.",
+    "keywords": ["laravel", "zonda", "wwdhhd", "linux", "ubuntu", "arch", "manjaro","16.04"],
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +15,11 @@
         {
             "name": "Carlos Priego",
             "email": "carlos.enrique.priego@gmail.com"
-        }
+        },
+		{
+		    "name": "Joaquin Marcher",
+		    "email": "joaquin@marcher.com.uy"
+		}
     ],
     "autoload": {
         "files": [
