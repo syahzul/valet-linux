@@ -36,7 +36,7 @@ class Arch implements LinuxContract
     {
         output('<info>[' . $package . '] is not installed, installing it now...</info> 🍻');
 
-        $this->cli->run('packman -S ' . $package, function ($errorOutput) use ($package) {
+        $this->cli->run('pacman -S --noconfirm ' . $package, function ($errorOutput) use ($package) {
             output($errorOutput);
 
             throw new DomainException('Unable to install [' . $package . '].');
