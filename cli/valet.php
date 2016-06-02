@@ -94,7 +94,8 @@ $app->command('forget', function () {
  * Remove the current working directory to the paths configuration.
  */
 $app->command('status', function () {
-    passthru('systemctl status caddy.service php7.0-fpm.service');
+    $phpFpm =  PhpFpm::getFpmService();
+    passthru('systemctl status caddy.service '.$phpFpm.'.service');
 })->descriptions('View Valet service status');
 
 /**
