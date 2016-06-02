@@ -104,4 +104,17 @@ class PhpFpm
             throw new DomainException('Unable to find php-fpm config.');
         }
     }
+
+    public function getFpmService()
+    {
+        if ($this->linux->linkedPhp() === get_config('php-latest')) {
+            return get_config('fpm-service');
+        } elseif ($this->linux->linkedPhp() === get_config('php-56')) {
+            return get_config('fpm56-service');
+        } elseif ($this->linux->linkedPhp() === get_config('php-55')) {
+            return get_config('fpm55-service');
+        } else {
+            throw new DomainException('Unable to find php fpm service.');
+        }
+    }
 }
