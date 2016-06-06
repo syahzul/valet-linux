@@ -29,14 +29,14 @@ class Arch implements LinuxContract
 
     function installed(string $package) : bool
     {
-        return explode(' ', $this->cli->run('pacman -Qe ' . $package))[0] == $package;
+        return explode(' ', $this->cli->run('sudo pacman -Q ' . $package))[0] == $package;
     }
 
     function installOrFail(string $package)
     {
         output('<info>[' . $package . '] is not installed, installing it now...</info> 🍻');
 
-        $this->cli->run('pacman -S --noconfirm ' . $package, function ($errorOutput) use ($package) {
+        $this->cli->run('sudo pacman -S --noconfirm ' . $package, function ($errorOutput) use ($package) {
             output($errorOutput);
 
             throw new DomainException('Unable to install [' . $package . '].');
