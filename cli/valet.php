@@ -18,9 +18,9 @@ use Illuminate\Container\Container;
  */
 Container::setInstance(new Container);
 
-$version = '1.2.1';
+$version = '1.2.4';
 
-$app = new Application('Laravel Valet', $version);
+$app = new Application('Laravel Valet (Linux Edition)', $version);
 
 /**
  * Prune missing directories and symbolic links on every command.
