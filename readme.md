@@ -43,13 +43,21 @@ If you just want to serve a single site you can use `valet link [your-desired-ur
 
 **`valet status`**
 
-To check the status of the **Valet _for Ubuntu_** services.
+To check the status of the **Valet _for Linux_** services.
 
 ## Update
 
 To update your Valet package just run: `composer global update`
 
 ## F.A.Q.
+
+**Why is my preferred distribution not supported?**
+
+Well, not all distros work the same way, we need to test every distribution in order to release it to the public and also
+know how every distribution works.
+
+If you have experience with your distribution and also a bit of experience with PHP (you don't need too much experience),
+write a new Issue, and tell me which distro you want to add.
 
 **Why can't I run `valet install`?**
 
