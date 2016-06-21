@@ -5,9 +5,10 @@ class BasicValetDriver extends ValetDriver
     /**
      * Determine if the driver serves the request.
      *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
+     * @param string $sitePath
+     * @param string $siteName
+     * @param string $uri
+     *
      * @return bool
      */
     public function serves($sitePath, $siteName, $uri)
@@ -18,9 +19,10 @@ class BasicValetDriver extends ValetDriver
     /**
      * Determine if the incoming request is for a static file.
      *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
+     * @param string $sitePath
+     * @param string $siteName
+     * @param string $uri
+     *
      * @return string|false
      */
     public function isStaticFile($sitePath, $siteName, $uri)
@@ -37,9 +39,10 @@ class BasicValetDriver extends ValetDriver
     /**
      * Get the fully resolved path to the application's front controller.
      *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
+     * @param string $sitePath
+     * @param string $siteName
+     * @param string $uri
+     *
      * @return string
      */
     public function frontControllerPath($sitePath, $siteName, $uri)
@@ -54,6 +57,7 @@ class BasicValetDriver extends ValetDriver
             if ($this->isActualFile($candidate)) {
                 $_SERVER['SCRIPT_FILENAME'] = $candidate;
                 $_SERVER['SCRIPT_NAME'] = str_replace($sitePath, '', $candidate);
+
                 return $candidate;
             }
         }
@@ -68,6 +72,7 @@ class BasicValetDriver extends ValetDriver
             if ($this->isActualFile($candidate)) {
                 $_SERVER['SCRIPT_FILENAME'] = $candidate;
                 $_SERVER['SCRIPT_NAME'] = '/index.php';
+
                 return $candidate;
             }
         }
@@ -76,8 +81,9 @@ class BasicValetDriver extends ValetDriver
     /**
      * Concatenate the site path and URI as a single file name.
      *
-     * @param  string  $sitePath
-     * @param  string  $uri
+     * @param string $sitePath
+     * @param string $uri
+     *
      * @return string
      */
     protected function asActualFile($sitePath, $uri)
@@ -88,8 +94,9 @@ class BasicValetDriver extends ValetDriver
     /**
      * Format the site path and URI with a trailing "index.php".
      *
-     * @param  string  $sitePath
-     * @param  string  $uri
+     * @param string $sitePath
+     * @param string $uri
+     *
      * @return string
      */
     protected function asPhpIndexFileInDirectory($sitePath, $uri)
@@ -100,8 +107,9 @@ class BasicValetDriver extends ValetDriver
     /**
      * Format the site path and URI with a trailing "index.html".
      *
-     * @param  string  $sitePath
-     * @param  string  $uri
+     * @param string $sitePath
+     * @param string $uri
+     *
      * @return string
      */
     protected function asHtmlIndexFileInDirectory($sitePath, $uri)
@@ -112,7 +120,8 @@ class BasicValetDriver extends ValetDriver
     /**
      * Format the incoming site path as root "index.php" file path.
      *
-     * @param  string  $sitePath
+     * @param string $sitePath
+     *
      * @return string
      */
     protected function asRootPhpIndexFile($sitePath)
@@ -123,7 +132,8 @@ class BasicValetDriver extends ValetDriver
     /**
      * Format the incoming site path as a "public/index.php" file path.
      *
-     * @param  string  $sitePath
+     * @param string $sitePath
+     *
      * @return string
      */
     protected function asPublicPhpIndexFile($sitePath)
@@ -134,7 +144,8 @@ class BasicValetDriver extends ValetDriver
     /**
      * Format the incoming site path as a "public/index.php" file path.
      *
-     * @param  string  $sitePath
+     * @param string $sitePath
+     *
      * @return string
      */
     protected function asPublicHtmlIndexFile($sitePath)

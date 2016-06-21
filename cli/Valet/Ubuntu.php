@@ -3,20 +3,18 @@
  * Created by PhpStorm.
  * User: gordo
  * Date: 31/05/16
- * Time: 11:55 AM
+ * Time: 11:55 AM.
  */
-
 namespace Valet;
-
 
 use DomainException;
 use Valet\Contracts\LinuxContract;
 
 class Ubuntu implements LinuxContract
 {
-    var $cli, $files;
+    public $cli, $files;
 
-    function __construct(CommandLine $cli, Filesystem $files)
+    public function __construct(CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
         $this->files = $files;
@@ -25,30 +23,31 @@ class Ubuntu implements LinuxContract
     /**
      * Determine if the given formula is installed.
      *
-     * @param  string $package
+     * @param string $package
+     *
      * @return bool
      */
-    function installed(string $package) :bool
+    public function installed(string $package) :bool
     {
         return in_array($package,
-            explode(PHP_EOL, $this->cli->run('dpkg -l | grep ' . $package . ' | sed \'s_  _\t_g\' | cut -f 2')));
+            explode(PHP_EOL, $this->cli->run('dpkg -l | grep '.$package.' | sed \'s_  _\t_g\' | cut -f 2')));
     }
-
 
     /**
      * Install the given formula and throw an exception on failure.
      *
-     * @param  string $package
+     * @param string $package
+     *
      * @return void
      */
-    function installOrFail(string $package)
+    public function installOrFail(string $package)
     {
-        output('<info>[' . $package . '] is not installed, installing it now...</info> 🍻');
+        output('<info>['.$package.'] is not installed, installing it now...</info> 🍻');
 
-        $this->cli->run('apt-get install ' . $package, function ($errorOutput) use ($package) {
+        $this->cli->run('apt-get install '.$package, function ($errorOutput) use ($package) {
             output($errorOutput);
 
-            throw new DomainException('Unable to install [' . $package . '].');
+            throw new DomainException('Unable to install ['.$package.'].');
         });
     }
 
@@ -57,12 +56,12 @@ class Ubuntu implements LinuxContract
      *
      * @param
      */
-    function restartService($services)
+    public function restartService($services)
     {
         $services = is_array($services) ? $services : func_get_args();
 
         foreach ($services as $service) {
-            $this->cli->quietly('sudo service ' . $service . ' restart');
+            $this->cli->quietly('sudo service '.$service.' restart');
         }
     }
 
@@ -71,12 +70,12 @@ class Ubuntu implements LinuxContract
      *
      * @param
      */
-    function stopService($services)
+    public function stopService($services)
     {
         $services = is_array($services) ? $services : func_get_args();
 
         foreach ($services as $service) {
-            $this->cli->quietly('sudo service ' . $service . ' stop');
+            $this->cli->quietly('sudo service '.$service.' stop');
         }
     }
 
@@ -85,10 +84,10 @@ class Ubuntu implements LinuxContract
      *
      * @return string
      */
-    function linkedPhp() :string
+    public function linkedPhp() :string
     {
-        if (! $this->files->isLink(get_config('php-bin'))) {
-            throw new DomainException("Unable to determine linked PHP.");
+        if (!$this->files->isLink(get_config('php-bin'))) {
+            throw new DomainException('Unable to determine linked PHP.');
         }
 
         $resolvedPath = $this->files->readLink(get_config('php-bin'));
@@ -100,7 +99,7 @@ class Ubuntu implements LinuxContract
         } elseif (strpos($resolvedPath, get_config('php-55')) !== false) {
             return get_config('php-55');
         } else {
-            throw new DomainException("Unable to determine linked PHP.");
+            throw new DomainException('Unable to determine linked PHP.');
         }
     }
 }

@@ -2,25 +2,23 @@
 
 namespace Valet;
 
-use Exception;
-use Symfony\Component\Process\Process;
-
 class DnsMasq
 {
-    var $linux, $cli, $files;
+    public $linux, $cli, $files;
 
-    var $configPath = '/etc/dnsmasq.conf';
-    var $exampleConfigPath;
+    public $configPath = '/etc/dnsmasq.conf';
+    public $exampleConfigPath;
 
     /**
      * Create a new DnsMasq instance.
      *
-     * @param  Linux       $linux
-     * @param  CommandLine $cli
-     * @param  Filesystem  $files
+     * @param Linux       $linux
+     * @param CommandLine $cli
+     * @param Filesystem  $files
+     *
      * @return void
      */
-    function __construct(Linux $linux, CommandLine $cli, Filesystem $files)
+    public function __construct(Linux $linux, CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
         $this->linux = $linux;
@@ -33,7 +31,7 @@ class DnsMasq
      *
      * @return void
      */
-    function install($domain = 'dev')
+    public function install($domain = 'dev')
     {
         $this->linux->ensureInstalled('dnsmasq');
         $this->manageDnsmasqManually();
@@ -51,10 +49,11 @@ class DnsMasq
     /**
      * Append the custom DnsMasq configuration file to the main configuration file.
      *
-     * @param  string  $domain
+     * @param string $domain
+     *
      * @return void
      */
-    function createCustomConfigFile($domain)
+    public function createCustomConfigFile($domain)
     {
         $customConfigPath = $this->customConfigPath();
 
@@ -66,15 +65,15 @@ class DnsMasq
     }
 
     /**
-     * Configure standalone Dnsmasq
+     * Configure standalone Dnsmasq.
      *
      * @return void
      */
-    function manageDnsmasqManually()
+    public function manageDnsmasqManually()
     {
         // Because I don't want you to lose your network connection everytime we update the domain
         // lets remove the Dnsmasq control from NetworkManager.
-        if ( $this->cli->run('grep \'^dns=dnsmasq\' /etc/NetworkManager/NetworkManager.conf') ) {
+        if ($this->cli->run('grep \'^dns=dnsmasq\' /etc/NetworkManager/NetworkManager.conf')) {
             $this->cli->run('sudo sed -i \'s/^dns=/#dns=/g\' /etc/NetworkManager/NetworkManager.conf');
             $this->cli->run('sudo service network-manager stop');
             $this->cli->run('sudo pkill dnsmasq');
@@ -88,9 +87,9 @@ class DnsMasq
      *
      * @return void
      */
-    function copyExampleConfig()
+    public function copyExampleConfig()
     {
-        if (! $this->files->exists($this->configPath)) {
+        if (!$this->files->exists($this->configPath)) {
             $this->files->copyAsUser(
                 $this->exampleConfigPath,
                 $this->configPath
@@ -101,12 +100,13 @@ class DnsMasq
     /**
      * Append import command for our custom configuration to DnsMasq file.
      *
-     * @param  string  $customConfigPath
+     * @param string $customConfigPath
+     *
      * @return void
      */
-    function appendCustomConfigImport($customConfigPath)
+    public function appendCustomConfigImport($customConfigPath)
     {
-        if (! $this->customConfigIsBeingImported($customConfigPath)) {
+        if (!$this->customConfigIsBeingImported($customConfigPath)) {
             $this->files->appendAsUser(
                 $this->configPath,
                 PHP_EOL.'conf-file='.$customConfigPath.PHP_EOL
@@ -117,10 +117,11 @@ class DnsMasq
     /**
      * Determine if Valet's custom DnsMasq configuration is being imported.
      *
-     * @param  string  $customConfigPath
+     * @param string $customConfigPath
+     *
      * @return bool
      */
-    function customConfigIsBeingImported($customConfigPath)
+    public function customConfigIsBeingImported($customConfigPath)
     {
         return strpos($this->files->get($this->configPath), $customConfigPath) !== false;
     }
@@ -128,11 +129,12 @@ class DnsMasq
     /**
      * Update the domain used by DnsMasq.
      *
-     * @param  string  $oldDomain
-     * @param  string  $newDomain
+     * @param string $oldDomain
+     * @param string $newDomain
+     *
      * @return void
      */
-    function updateDomain($oldDomain, $newDomain)
+    public function updateDomain($oldDomain, $newDomain)
     {
         // $this->files->unlink($this->resolverPath.'/'.$oldDomain);
 
@@ -144,7 +146,7 @@ class DnsMasq
      *
      * @return string
      */
-    function customConfigPath()
+    public function customConfigPath()
     {
         return $_SERVER['HOME'].'/.valet/dnsmasq.conf';
     }

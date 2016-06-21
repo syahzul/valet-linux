@@ -2,10 +2,8 @@
 
 namespace Valet;
 
-use Exception;
 use DomainException;
 use Symfony\Component\Process\Process;
-use Valet\Contracts\LinuxContract;
 
 class PhpFpm
 {
@@ -14,9 +12,10 @@ class PhpFpm
     /**
      * Create a new PHP FPM class instance.
      *
-     * @param  Linux       $linux
-     * @param  CommandLine $cli
-     * @param  Filesystem  $files
+     * @param Linux       $linux
+     * @param CommandLine $cli
+     * @param Filesystem  $files
+     *
      * @return void
      */
     public function __construct(Linux $linux, CommandLine $cli, Filesystem $files)
@@ -33,9 +32,9 @@ class PhpFpm
      */
     public function install()
     {
-        if (! $this->linux->installed(get_config('php-latest')) &&
-            ! $this->linux->installed(get_config('php-56')) &&
-            ! $this->linux->installed(get_config('php-55'))) {
+        if (!$this->linux->installed(get_config('php-latest')) &&
+            !$this->linux->installed(get_config('php-56')) &&
+            !$this->linux->installed(get_config('php-55'))) {
             $this->linux->ensureInstalled(get_config('php-latest'));
         }
 
@@ -83,7 +82,7 @@ class PhpFpm
         $this->linux->stopService([
             get_config('fpm55-service'),
             get_config('fpm56-service'),
-            get_config('fpm-service')
+            get_config('fpm-service'),
         ]);
     }
 

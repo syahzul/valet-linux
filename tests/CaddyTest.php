@@ -1,9 +1,8 @@
 <?php
 
+use Illuminate\Container\Container;
 use Valet\Caddy;
 use Valet\Filesystem;
-use Valet\CommandLine;
-use Illuminate\Container\Container;
 
 class CaddyTest extends PHPUnit_Framework_TestCase
 {
@@ -11,15 +10,13 @@ class CaddyTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['SUDO_USER'] = user();
 
-        Container::setInstance(new Container);
+        Container::setInstance(new Container());
     }
-
 
     public function tearDown()
     {
         Mockery::close();
     }
-
 
     public function test_install_caddy_file_places_stub_in_valet_home_directory()
     {
@@ -35,7 +32,6 @@ class CaddyTest extends PHPUnit_Framework_TestCase
         $caddy->installCaddyFile();
     }
 
-
     public function test_install_caddy_directories_creates_location_for_site_specific_configuration()
     {
         $files = Mockery::mock(Filesystem::class);
@@ -49,7 +45,6 @@ class CaddyTest extends PHPUnit_Framework_TestCase
         $caddy->installCaddyDirectory();
     }
 
-
     public function test_caddy_directory_is_never_created_if_it_already_exists()
     {
         $files = Mockery::mock(Filesystem::class);
@@ -62,7 +57,6 @@ class CaddyTest extends PHPUnit_Framework_TestCase
 
         $caddy->installCaddyDirectory();
     }
-
 
     public function test_caddy_daemon_is_placed_in_correct_location()
     {

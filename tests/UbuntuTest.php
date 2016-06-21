@@ -1,9 +1,9 @@
 <?php
 
-use Valet\Linux;
-use Valet\Filesystem;
-use Valet\CommandLine;
 use Illuminate\Container\Container;
+use Valet\CommandLine;
+use Valet\Filesystem;
+use Valet\Linux;
 
 class UbuntuTest extends PHPUnit_Framework_TestCase
 {
@@ -11,21 +11,18 @@ class UbuntuTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['SUDO_USER'] = user();
 
-        Container::setInstance(new Container);
+        Container::setInstance(new Container());
     }
-
 
     public function tearDown()
     {
         Mockery::close();
     }
 
-
     public function test_apt_can_be_resolved_from_container()
     {
         $this->assertInstanceOf(Linux::class, resolve(Linux::class));
     }
-
 
     public function test_installed_returns_true_when_given_formula_is_installed()
     {
@@ -44,7 +41,6 @@ php7.0');
         swap(CommandLine::class, $cli);
         $this->assertTrue(resolve(Linux::class)->installed(get_config('php-latest')));
     }
-
 
     public function test_installed_returns_false_when_given_formula_is_not_installed()
     {
@@ -72,28 +68,26 @@ php7');
         $this->assertFalse(resolve(Linux::class)->installed(get_config('php-latest')));
     }
 
-
     public function test_has_installed_php_indicates_if_php_is_installed_via_apt()
     {
-        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine, new Filesystem]);
+        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine(), new Filesystem()]);
         $apt->shouldReceive('installed')->once()->with(get_config('php-latest'))->andReturn(true);
         $apt->shouldReceive('installed')->with(get_config('php-56'))->andReturn(true);
         $apt->shouldReceive('installed')->with(get_config('php-55'))->andReturn(true);
         $this->assertTrue($apt->hasInstalledPhp());
 
-        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine, new Filesystem]);
+        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine(), new Filesystem()]);
         $apt->shouldReceive('installed')->once()->with(get_config('php-latest'))->andReturn(true);
         $apt->shouldReceive('installed')->with(get_config('php-56'))->andReturn(false);
         $apt->shouldReceive('installed')->with(get_config('php-55'))->andReturn(false);
         $this->assertTrue($apt->hasInstalledPhp());
 
-        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine, new Filesystem]);
+        $apt = Mockery::mock(Linux::class.'[installed]', [new CommandLine(), new Filesystem()]);
         $apt->shouldReceive('installed')->once()->with(get_config('php-latest'))->andReturn(false);
         $apt->shouldReceive('installed')->once()->with(get_config('php-56'))->andReturn(false);
         $apt->shouldReceive('installed')->once()->with(get_config('php-55'))->andReturn(false);
         $this->assertFalse($apt->hasInstalledPhp());
     }
-
 
     public function test_restart_restarts_the_service_using_ubuntu_services()
     {
@@ -103,7 +97,6 @@ php7');
         resolve(Linux::class)->restartService('dnsmasq');
     }
 
-
     public function test_stop_stops_the_service_using_ubuntu_services()
     {
         $cli = Mockery::mock(CommandLine::class);
@@ -111,7 +104,6 @@ php7');
         swap(CommandLine::class, $cli);
         resolve(Linux::class)->stopService('dnsmasq');
     }
-
 
     public function test_linked_php_returns_linked_php_formula_name()
     {
@@ -128,7 +120,6 @@ php7');
         $this->assertEquals(get_config('php-56'), resolve(Linux::class)->linkedPhp());
     }
 
-
     /**
      * @expectedException DomainException
      */
@@ -139,7 +130,6 @@ php7');
         swap(Filesystem::class, $files);
         resolve(Linux::class)->linkedPhp();
     }
-
 
     /**
      * @expectedException DomainException
@@ -153,7 +143,6 @@ php7');
         resolve(Linux::class)->linkedPhp();
     }
 
-
     public function test_install_or_fail_will_install_packages()
     {
         $cli = Mockery::mock(CommandLine::class);
@@ -161,7 +150,6 @@ php7');
         swap(CommandLine::class, $cli);
         resolve(Linux::class)->installOrFail('dnsmasq');
     }
-
 
     /**
      * @expectedException DomainException

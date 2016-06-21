@@ -4,17 +4,17 @@ namespace Valet;
 
 class Caddy
 {
-    var $cli;
-    var $files;
-    var $daemonPath;
+    public $cli;
+    public $files;
+    public $daemonPath;
 
     /**
      * Create a new Caddy instance.
      *
-     * @param  CommandLine  $cli
-     * @param  Filesystem  $files
+     * @param CommandLine $cli
+     * @param Filesystem  $files
      */
-    function __construct(CommandLine $cli, Filesystem $files)
+    public function __construct(CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
         $this->files = $files;
@@ -26,7 +26,7 @@ class Caddy
      *
      * @return void
      */
-    function install()
+    public function install()
     {
         $this->caddyAllowRootPorts();
         $this->installCaddyFile();
@@ -41,7 +41,7 @@ class Caddy
      *
      * @return void
      */
-    function caddyAllowRootPorts()
+    public function caddyAllowRootPorts()
     {
         $caddy_bin = $this->files->realpath(__DIR__.'/../../').'/bin/caddy';
 
@@ -55,7 +55,7 @@ class Caddy
      *
      * @return void
      */
-    function installCaddyFile()
+    public function installCaddyFile()
     {
         $contents = str_replace(
             'FPM_ADDRESS', get_config('systemd-caddy-fpm'),
@@ -75,9 +75,9 @@ class Caddy
      *
      * @return void
      */
-    function installCaddyDirectory()
+    public function installCaddyDirectory()
     {
-        if (! $this->files->isDir($caddyDirectory = VALET_HOME_PATH.'/Caddy')) {
+        if (!$this->files->isDir($caddyDirectory = VALET_HOME_PATH.'/Caddy')) {
             $this->files->mkdirAsUser($caddyDirectory);
         }
 
@@ -89,7 +89,7 @@ class Caddy
      *
      * @return void
      */
-    function installCaddyDaemon()
+    public function installCaddyDaemon()
     {
         $contents = str_replace(
             'VALET_PATH', $this->files->realpath(__DIR__.'/../../'),
@@ -109,7 +109,7 @@ class Caddy
      *
      * @return void
      */
-    function restart()
+    public function restart()
     {
         $this->cli->quietly('systemctl daemon-reload');
         $this->cli->quietly('systemctl restart caddy.service');
@@ -120,7 +120,7 @@ class Caddy
      *
      * @return void
      */
-    function stop()
+    public function stop()
     {
         $this->cli->quietly('systemctl stop caddy.service');
     }
@@ -130,13 +130,13 @@ class Caddy
      *
      * @return void
      */
-    function uninstall()
+    public function uninstall()
     {
         $this->stop();
         $this->cli->quietly('systemctl disable caddy.service');
-        
+
         $this->files->unlink($this->daemonPath);
-        
+
         $this->cli->quietly('systemctl daemon-reload');
     }
 }
