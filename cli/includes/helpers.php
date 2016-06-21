@@ -2,37 +2,40 @@
 
 use Illuminate\Container\Container;
 
-/**
+/*
  * Define the ~/.valet path as a constant.
  */
-define('VALET_HOME_PATH', $_SERVER['HOME'] . '/.valet');
+define('VALET_HOME_PATH', $_SERVER['HOME'].'/.valet');
 
 /**
  * Output the given text to the console.
  *
- * @param  string $output
+ * @param string $output
+ *
  * @return void
  */
 function info($output)
 {
-    output('<info>' . $output . '</info>');
+    output('<info>'.$output.'</info>');
 }
 
 /**
  * Output the given text to the console.
  *
- * @param  string $output
+ * @param string $output
+ *
  * @return void
  */
 function warning($output)
 {
-    output('<fg=red>' . $output . '</>');
+    output('<fg=red>'.$output.'</>');
 }
 
 /**
  * Output the given text to the console.
  *
- * @param  string $output
+ * @param string $output
+ *
  * @return void
  */
 function output($output)
@@ -41,26 +44,27 @@ function output($output)
         return;
     }
 
-    (new Symfony\Component\Console\Output\ConsoleOutput)->writeln($output);
+    (new Symfony\Component\Console\Output\ConsoleOutput())->writeln($output);
 }
 
 /**
  * Resolve the given class from the container.
  *
- * @param  string $class
+ * @param string $class
+ *
  * @return mixed
  */
 function resolve($class)
 {
-
     return Container::getInstance()->make($class);
 }
 
 /**
  * Swap the given class implementation in the container.
  *
- * @param  string $class
- * @param  mixed  $instance
+ * @param string $class
+ * @param mixed  $instance
+ *
  * @return void
  */
 function swap($class, $instance)
@@ -71,9 +75,10 @@ function swap($class, $instance)
 /**
  * Retry the given function N times.
  *
- * @param  int      $retries
- * @param  callable $retries
- * @param  int      $sleep
+ * @param int      $retries
+ * @param callable $retries
+ * @param int      $sleep
+ *
  * @return mixed
  */
 function retry($retries, $fn, $sleep = 0)
@@ -82,7 +87,7 @@ function retry($retries, $fn, $sleep = 0)
     try {
         return $fn();
     } catch (Exception $e) {
-        if (! $retries) {
+        if (!$retries) {
             throw $e;
         }
 
@@ -103,7 +108,7 @@ function retry($retries, $fn, $sleep = 0)
  */
 function should_be_sudo()
 {
-    if (! isset($_SERVER['SUDO_USER'])) {
+    if (!isset($_SERVER['SUDO_USER'])) {
         throw new Exception('This command must be run with sudo.');
     }
 }
@@ -111,8 +116,9 @@ function should_be_sudo()
 /**
  * Tap the given value.
  *
- * @param  mixed    $value
- * @param  callable $callback
+ * @param mixed    $value
+ * @param callable $callback
+ *
  * @return mixed
  */
 function tap($value, callable $callback)
@@ -123,11 +129,11 @@ function tap($value, callable $callback)
 }
 
 /**
- * Get the user
+ * Get the user.
  */
 function user()
 {
-    if (! isset($_SERVER['SUDO_USER'])) {
+    if (!isset($_SERVER['SUDO_USER'])) {
         return $_SERVER['USER'];
     }
 

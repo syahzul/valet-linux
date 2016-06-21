@@ -1,8 +1,7 @@
 <?php
 
-use Valet\PhpFpm;
-use Valet\CommandLine;
 use Illuminate\Container\Container;
+use Valet\PhpFpm;
 
 class PhpFpmTest extends PHPUnit_Framework_TestCase
 {
@@ -10,9 +9,8 @@ class PhpFpmTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['SUDO_USER'] = user();
 
-        Container::setInstance(new Container);
+        Container::setInstance(new Container());
     }
-
 
     public function tearDown()
     {
@@ -22,7 +20,6 @@ class PhpFpmTest extends PHPUnit_Framework_TestCase
 
         Mockery::close();
     }
-
 
     public function test_update_configuration_replaces_user_and_group_in_config_file()
     {
@@ -37,7 +34,7 @@ class PhpFpmTest extends PHPUnit_Framework_TestCase
 
 class StubForUpdatingFpmConfigFiles extends PhpFpm
 {
-    function fpmConfigPath()
+    public function fpmConfigPath()
     {
         return __DIR__.'/output/fpm.conf';
     }

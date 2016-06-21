@@ -15,8 +15,9 @@ class Facade
     /**
      * Call a non-static method on the facade.
      *
-     * @param  string  $method
-     * @param  array  $parameters
+     * @param string $method
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public static function __callStatic($method, $parameters)
@@ -25,15 +26,39 @@ class Facade
     }
 }
 
-class Brew extends Facade {}
-class Linux extends Facade {}
-class Ubuntu extends Facade {}
-class Caddy extends Facade {}
-class CommandLine extends Facade {}
-class Configuration extends Facade {}
-class DnsMasq extends Facade {}
-class Filesystem extends Facade {}
-class Ngrok extends Facade {}
-class PhpFpm extends Facade {}
-class Site extends Facade {}
-class Valet extends Facade {}
+class Brew extends Facade
+{
+}
+class Linux extends Facade
+{
+}
+class Ubuntu extends Facade
+{
+}
+class Caddy extends Facade
+{
+}
+class CommandLine extends Facade
+{
+}
+class Configuration extends Facade
+{
+}
+class DnsMasq extends Facade
+{
+}
+class Filesystem extends Facade
+{
+}
+class Ngrok extends Facade
+{
+}
+class PhpFpm extends Facade
+{
+}
+class Site extends Facade
+{
+}
+class Valet extends Facade
+{
+}

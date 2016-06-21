@@ -1,10 +1,10 @@
 <?php
 
-use Valet\Linux;
+use Illuminate\Container\Container;
+use Valet\CommandLine;
 use Valet\DnsMasq;
 use Valet\Filesystem;
-use Valet\CommandLine;
-use Illuminate\Container\Container;
+use Valet\Linux;
 
 class DnsMasqTest extends PHPUnit_Framework_TestCase
 {
@@ -12,9 +12,8 @@ class DnsMasqTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['SUDO_USER'] = user();
 
-        Container::setInstance(new Container);
+        Container::setInstance(new Container());
     }
-
 
     public function tearDown()
     {
@@ -24,7 +23,6 @@ class DnsMasqTest extends PHPUnit_Framework_TestCase
 
         Mockery::close();
     }
-
 
     public function test_install_installs_and_places_configuration_files_in_proper_locations()
     {
@@ -46,7 +44,6 @@ class DnsMasqTest extends PHPUnit_Framework_TestCase
 conf-file='.__DIR__.'/output/custom-dnsmasq.conf
 ', file_get_contents(__DIR__.'/output/dnsmasq.conf'));
     }
-
 
     // public function test_update_domain_removes_old_resolver_and_reinstalls()
     // {

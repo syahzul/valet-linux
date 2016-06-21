@@ -6,17 +6,18 @@ use Valet\Contracts\LinuxContract;
 
 class Linux implements LinuxContract
 {
-    var $cli, $files;
+    public $cli, $files;
     protected $distribution;
 
     /**
      * Create a new Linux instance.
      *
-     * @param  CommandLine $cli
-     * @param  Filesystem  $files
+     * @param CommandLine $cli
+     * @param Filesystem  $files
+     *
      * @return void
      */
-    function __construct(CommandLine $cli, Filesystem $files)
+    public function __construct(CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
         $this->files = $files;
@@ -26,10 +27,10 @@ class Linux implements LinuxContract
     private function getDistributionInstance() : LinuxContract
     {
         $match = [];
-        preg_match('/.*-(\w*)/i', strtolower(php_uname("r")), $match);
+        preg_match('/.*-(\w*)/i', strtolower(php_uname('r')), $match);
         switch ($match[1]) {
-            case "manjaro":
-            case "arch":
+            case 'manjaro':
+            case 'arch':
                 return new Arch($this->cli, $this->files);
             default:
                 return new Ubuntu($this->cli, $this->files);
@@ -41,7 +42,7 @@ class Linux implements LinuxContract
      *
      * @return bool
      */
-    function hasInstalledPhp() :bool
+    public function hasInstalledPhp() :bool
     {
         return $this->installed(get_config('php-latest'))
         || $this->installed(get_config('php-56'))
@@ -51,10 +52,11 @@ class Linux implements LinuxContract
     /**
      * Determine if the given formula is installed.
      *
-     * @param  string $package
+     * @param string $package
+     *
      * @return bool
      */
-    function installed(string $package) :bool
+    public function installed(string $package) :bool
     {
         return $this->distribution->installed($package);
     }
@@ -62,12 +64,13 @@ class Linux implements LinuxContract
     /**
      * Ensure that the given formula is installed.
      *
-     * @param  string $package
+     * @param string $package
+     *
      * @return void
      */
-    function ensureInstalled(string $package)
+    public function ensureInstalled(string $package)
     {
-        if (! $this->installed($package)) {
+        if (!$this->installed($package)) {
             $this->installOrFail($package);
         }
     }
@@ -75,7 +78,8 @@ class Linux implements LinuxContract
     /**
      * Install the given formula and throw an exception on failure.
      *
-     * @param  string $package
+     * @param string $package
+     *
      * @return void
      */
     public function installOrFail(string $package)
@@ -112,5 +116,4 @@ class Linux implements LinuxContract
     {
         return $this->distribution->linkedPhp();
     }
-
 }
