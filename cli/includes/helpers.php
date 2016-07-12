@@ -6,9 +6,9 @@ use Illuminate\Container\Container;
  * Define the ~/.valet path as a constant.
  */
 if (isset($_SERVER['SUDO_USER'])) {
-  define('VALET_HOME_PATH', '/home/' . $_SERVER['SUDO_USER'] . '/.valet');
+  define('VALET_HOME_PATH', '/home/'.$_SERVER['SUDO_USER'].'/.valet');
 } else {
-  define('VALET_HOME_PATH', $_SERVER['HOME'] . '/.valet');
+  define('VALET_HOME_PATH', $_SERVER['HOME'].'/.valet');
 }
 
 /**
