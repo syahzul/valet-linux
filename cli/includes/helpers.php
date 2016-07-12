@@ -5,7 +5,11 @@ use Illuminate\Container\Container;
 /*
  * Define the ~/.valet path as a constant.
  */
-define('VALET_HOME_PATH', $_SERVER['HOME'].'/.valet');
+if (isset($_SERVER['SUDO_USER'])) {
+  define('VALET_HOME_PATH', '/home/' . $_SERVER['SUDO_USER'] . '/.valet');
+} else {
+  define('VALET_HOME_PATH', $_SERVER['HOME'] . '/.valet');
+}
 
 /**
  * Output the given text to the console.
