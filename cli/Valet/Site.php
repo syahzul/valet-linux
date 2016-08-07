@@ -4,7 +4,9 @@ namespace Valet;
 
 class Site
 {
-    public $config, $cli, $files;
+    public $config;
+    public $cli;
+    public $files;
 
     /**
      * Create a new Site instance.

@@ -4,7 +4,8 @@ namespace Valet;
 
 class Valet
 {
-    public $cli, $files;
+    public $cli;
+    public $files;
 
     public $valetBin = '/usr/local/bin/valet';
 
