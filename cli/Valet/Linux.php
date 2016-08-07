@@ -6,7 +6,8 @@ use Valet\Contracts\LinuxContract;
 
 class Linux implements LinuxContract
 {
-    public $cli, $files;
+    public $cli;
+    public $files;
     protected $distribution;
 
     /**
