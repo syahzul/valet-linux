@@ -136,7 +136,13 @@ class Caddy
         $this->cli->quietly('systemctl disable caddy.service');
 
         $this->files->unlink($this->daemonPath);
-
+        // remove .valet files
+        $files = glob('/home/'.$_SERVER['SUDO_USER'].'/.valet/*'); // get all file names
+        foreach($files as $file){ // iterate files
+            if(is_file($file))
+                unlink($file); // delete file
+        }
+        $this->cli->quietly('sed -i \'/conf-file=\/home\/'.$_SERVER['SUDO_USER'].'\/.valet\/dnsmasq.conf/d\' /etc/dnsmasq.conf');
         $this->cli->quietly('systemctl daemon-reload');
     }
 }
