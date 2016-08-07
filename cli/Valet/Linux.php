@@ -28,6 +28,20 @@ class Linux implements LinuxContract
     {
         $match = [];
         preg_match('/.*-(\w*)/i', strtolower(php_uname('r')), $match);
+        /*
+         * Using a custom kernel on Arch? uname may not have Arch identifier.
+         * Check /etc/issue as a fallback.
+         */
+        if (is_file('/etc/issue') && $match != 'ubuntu' && $match != 'manjaro') {
+            // get contents of /etc/issue into a string
+            $filename = '/etc/issue';
+            $handle = fopen($filename, 'r');
+            $contents = fread($handle, filesize($filename));
+            fclose($handle);
+            if (preg_match('/^Arch/', $contents) == true) {
+                $match[1] = 'arch';
+            }
+        }
         switch ($match[1]) {
             case 'manjaro':
             case 'arch':
