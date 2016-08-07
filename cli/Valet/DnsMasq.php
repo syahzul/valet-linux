@@ -4,8 +4,9 @@ namespace Valet;
 
 class DnsMasq
 {
-    public $linux, $cli, $files;
-
+    public $linux;
+    public $cli;
+    public $files;
     public $configPath = '/etc/dnsmasq.conf';
     public $exampleConfigPath;
 
@@ -148,6 +149,6 @@ class DnsMasq
      */
     public function customConfigPath()
     {
-        return VALET_HOME_PATH.'/.valet/dnsmasq.conf';
+        return VALET_HOME_PATH.'/dnsmasq.conf';
     }
 }
