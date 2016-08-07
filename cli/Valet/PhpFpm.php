@@ -7,7 +7,9 @@ use Symfony\Component\Process\Process;
 
 class PhpFpm
 {
-    public $linux, $cli, $files;
+    public $linux;
+    public $cli;
+    public $files;
 
     /**
      * Create a new PHP FPM class instance.

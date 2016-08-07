@@ -12,7 +12,8 @@ use Valet\Contracts\LinuxContract;
 
 class Ubuntu implements LinuxContract
 {
-    public $cli, $files;
+    public $cli;
+    public $files;
 
     public function __construct(CommandLine $cli, Filesystem $files)
     {
