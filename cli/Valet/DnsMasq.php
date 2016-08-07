@@ -148,6 +148,6 @@ class DnsMasq
      */
     public function customConfigPath()
     {
-        return VALET_HOME_PATH.'/.valet/dnsmasq.conf';
+        return VALET_HOME_PATH.'/dnsmasq.conf';
     }
 }
