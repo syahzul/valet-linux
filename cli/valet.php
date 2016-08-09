@@ -18,7 +18,7 @@ use Silly\Application;
  */
 Container::setInstance(new Container());
 
-$version = '1.2.7';
+$version = '1.2.8';
 
 $app = new Application('Laravel Valet (Linux Edition)', $version);
 
