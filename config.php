@@ -15,8 +15,8 @@ function get_config($value)
 
         // Latest PHP
         'php-latest'  => 'php',
-        'fpm-service' => 'php-fpm',
-        'fpm-config'  => '/etc/php/php-fpm.d/www.conf',
+        'fpm-service' => 'php7.0-fpm',
+        'fpm-config'  => '/etc/php/7.0/fpm/pool.d/www.conf',
 
         // Caddy/Systemd
         'systemd-caddy'     => '/lib/systemd/system/caddy.service',
