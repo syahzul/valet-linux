@@ -117,20 +117,21 @@ function should_be_sudo()
     }
 }
 
-/**
+/*
  * Tap the given value.
  *
- * @param mixed    $value
+ * @param mixed $value
  * @param callable $callback
  *
  * @return mixed
  */
-if (! function_exists('tap')) {
-    /**
+if (!function_exists('tap')) {
+    /*
      * Tap the given value.
      *
-     * @param  mixed  $value
-     * @param  callable  $callback
+     * @param mixed $value
+     * @param callable $callback
+     
      * @return mixed
      */
     function tap($value, callable $callback)
