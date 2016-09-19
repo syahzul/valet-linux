@@ -131,12 +131,13 @@ if (!function_exists('tap')) {
      *
      * @param mixed $value
      * @param callable $callback
-     
+     *
      * @return mixed
      */
     function tap($value, callable $callback)
     {
         $callback($value);
+        
         return $value;
     }
 }
