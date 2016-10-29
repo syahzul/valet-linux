@@ -89,7 +89,7 @@ class Filesystem
      *
      * @param string $path
      *
-     * @return void
+     * @return string
      */
     public function touchAsUser($path)
     {

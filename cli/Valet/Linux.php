@@ -131,4 +131,9 @@ class Linux implements LinuxContract
     {
         return $this->distribution->linkedPhp();
     }
+
+    public function getConfig(string $value):string
+    {
+        return $this->distribution->getConfig($value);
+    }
 }

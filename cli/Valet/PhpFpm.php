@@ -34,10 +34,10 @@ class PhpFpm
      */
     public function install()
     {
-        if (!$this->linux->installed(get_config('php-latest')) &&
-            !$this->linux->installed(get_config('php-56')) &&
-            !$this->linux->installed(get_config('php-55'))) {
-            $this->linux->ensureInstalled(get_config('php-latest'));
+        if (!$this->linux->installed($this->linux->getConfig('php-latest')) &&
+            !$this->linux->installed($this->linux->getConfig('php-56')) &&
+            !$this->linux->installed($this->linux->getConfig('php-55'))) {
+            $this->linux->ensureInstalled($this->linux->getConfig('php-latest'));
         }
 
         $this->files->ensureDirExists('/var/log', user());
@@ -71,7 +71,7 @@ class PhpFpm
     {
         $this->stop();
 
-        $this->linux->restartService(get_config('fpm-service'));
+        $this->linux->restartService($this->linux->getConfig('fpm-service'));
     }
 
     /**
@@ -82,9 +82,9 @@ class PhpFpm
     public function stop()
     {
         $this->linux->stopService([
-            get_config('fpm55-service'),
-            get_config('fpm56-service'),
-            get_config('fpm-service'),
+            $this->linux->getConfig('fpm55-service'),
+            $this->linux->getConfig('fpm56-service'),
+            $this->linux->getConfig('fpm-service'),
         ]);
     }
 
@@ -95,12 +95,12 @@ class PhpFpm
      */
     public function fpmConfigPath()
     {
-        if ($this->linux->linkedPhp() === get_config('php-latest')) {
-            return get_config('fpm-config');
-        } elseif ($this->linux->linkedPhp() === get_config('php-56')) {
-            return get_config('fpm56-config');
-        } elseif ($this->linux->linkedPhp() === get_config('php-55')) {
-            return get_config('fpm55-config');
+        if ($this->linux->linkedPhp() === $this->linux->getConfig('php-latest')) {
+            return $this->linux->getConfig('fpm-config');
+        } elseif ($this->linux->linkedPhp() === $this->linux->getConfig('php-56')) {
+            return $this->linux->getConfig('fpm56-config');
+        } elseif ($this->linux->linkedPhp() === $this->linux->getConfig('php-55')) {
+            return $this->linux->getConfig('fpm55-config');
         } else {
             throw new DomainException('Unable to find php-fpm config.');
         }
@@ -108,12 +108,12 @@ class PhpFpm
 
     public function getFpmService()
     {
-        if ($this->linux->linkedPhp() === get_config('php-latest')) {
-            return get_config('fpm-service');
-        } elseif ($this->linux->linkedPhp() === get_config('php-56')) {
-            return get_config('fpm56-service');
-        } elseif ($this->linux->linkedPhp() === get_config('php-55')) {
-            return get_config('fpm55-service');
+        if ($this->linux->linkedPhp() === $this->linux->getConfig('php-latest')) {
+            return $this->linux->getConfig('fpm-service');
+        } elseif ($this->linux->linkedPhp() === $this->linux->getConfig('php-56')) {
+            return $this->linux->getConfig('fpm56-service');
+        } elseif ($this->linux->linkedPhp() === $this->linux->getConfig('php-55')) {
+            return $this->linux->getConfig('fpm55-service');
         } else {
             throw new DomainException('Unable to find php fpm service.');
         }

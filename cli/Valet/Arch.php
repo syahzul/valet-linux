@@ -64,5 +64,51 @@ class Arch implements LinuxContract
     public function linkedPhp() :string
     {
         return 'php';
+        /*if (!$this->files->isLink($this->getConfig('php-bin'))) {
+            throw new DomainException('Unable to determine linked PHP.');
+        }*/
+
+        $resolvedPath = $this->files->readLink($this->getConfig('php-bin'));
+
+        if (strpos($resolvedPath, $this->getConfig('php-latest')) !== false) {
+            return $this->getConfig('php-latest');
+        } elseif (strpos($resolvedPath, $this->getConfig('php-56')) !== false) {
+            return $this->getConfig('php-56');
+        } elseif (strpos($resolvedPath, $this->getConfig('php-55')) !== false) {
+            return $this->getConfig('php-55');
+        } else {
+            throw new DomainException('Unable to determine linked PHP.');
+        }
+    }
+
+    public function getConfig(string $value):string
+    {
+        $config = [
+            // PHP binary path
+            'php-bin' => '/usr/bin/php',
+
+            // Latest PHP
+            'php-latest'  => 'php',
+            'fpm-service' => 'php-fpm',
+            'fpm-config'  => '/etc/php/php-fpm.d/www.conf',
+
+            // Caddy/Systemd
+            'systemd-caddy'     => '/lib/systemd/system/caddy.service',
+            'systemd-caddy-fpm' => '/var/run/php-fpm/php-fpm.sock',
+
+            // PHP 5.6
+            'php-56'        => 'php5.6',
+            'fpm56-service' => 'php5.6-fpm',
+            'fpm56-config'  => '/etc/php/5.6/php-fpm.conf',
+
+            // PHP 5.5
+            'php-55'        => 'php5.5',
+            'fpm55-service' => 'php5.5-fpm',
+            'fpm55-config'  => '/etc/php/5.5/php-fpm.conf',
+
+            'network-manager'=>'NetworkManager'
+        ];
+
+        return $config[$value];
     }
 }

@@ -7,18 +7,21 @@ class Caddy
     public $cli;
     public $files;
     public $daemonPath;
+    public $linux;
 
     /**
      * Create a new Caddy instance.
      *
+     * @param Linux       $linux
      * @param CommandLine $cli
      * @param Filesystem  $files
      */
-    public function __construct(CommandLine $cli, Filesystem $files)
+    public function __construct(Linux $linux, CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
         $this->files = $files;
-        $this->daemonPath = get_config('systemd-caddy');
+        $this->linux = $linux;
+        $this->daemonPath = $this->linux->getConfig('systemd-caddy');
     }
 
     /**
@@ -58,7 +61,7 @@ class Caddy
     public function installCaddyFile()
     {
         $contents = str_replace(
-            'FPM_ADDRESS', get_config('systemd-caddy-fpm'),
+            'FPM_ADDRESS', $this->linux->getConfig('systemd-caddy-fpm'),
             $this->files->get(__DIR__.'/../stubs/Caddyfile')
         );
 
