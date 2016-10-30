@@ -2,6 +2,8 @@
 
 namespace Valet;
 
+use Marcher\FluentCurl\FluentCurl;
+
 class Valet
 {
     public $cli;
@@ -76,7 +78,7 @@ class Valet
      */
     public function onLatestVersion($currentVersion)
     {
-        $response = \Httpful\Request::get('https://api.github.com/repos/jmarcher/valet-linux/releases/latest')->send();
+        $response = (new FluentCurl)->setUrl('https://api.github.com/repos/jmarcher/valet-linux/releases/latest')->execute();
 
         return version_compare($currentVersion, trim($response->body->tag_name, 'v'), '>=');
     }

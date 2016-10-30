@@ -25,7 +25,7 @@ class Linux implements LinuxContract
         $this->distribution = $this->getDistributionInstance();
     }
 
-    private function getDistributionInstance() : LinuxContract
+    public function getDistributionInstance() : LinuxContract
     {
         $match = [];
         preg_match('/.*-(\w*)/i', strtolower(php_uname('r')), $match);
