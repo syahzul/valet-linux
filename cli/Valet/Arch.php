@@ -106,7 +106,7 @@ class Arch implements LinuxContract
             'fpm55-service' => 'php5.5-fpm',
             'fpm55-config'  => '/etc/php/5.5/php-fpm.conf',
 
-            'network-manager'=>'NetworkManager'
+            'network-manager' => 'NetworkManager',
         ];
 
         return $config[$value];

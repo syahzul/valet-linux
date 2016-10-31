@@ -78,7 +78,7 @@ class Valet
      */
     public function onLatestVersion($currentVersion)
     {
-        $response = (new FluentCurl)->setUrl('https://api.github.com/repos/jmarcher/valet-linux/releases/latest')->execute();
+        $response = (new FluentCurl())->setUrl('https://api.github.com/repos/jmarcher/valet-linux/releases/latest')->execute();
 
         return version_compare($currentVersion, trim($response->body->tag_name, 'v'), '>=');
     }
