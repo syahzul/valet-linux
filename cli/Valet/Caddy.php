@@ -5,7 +5,7 @@ namespace Valet;
 class Caddy
 {
     public $cli;
-    public $files;
+    public $files;systemctl disable 
     public $daemonPath;
     public $linux;
 
@@ -104,7 +104,7 @@ class Caddy
         );
 
         $this->cli->quietly('systemctl daemon-reload');
-        $this->cli->quietly('systemctl enable caddy.service');
+        $this->linux->enableService('caddy');
     }
 
     /**
@@ -115,7 +115,7 @@ class Caddy
     public function restart()
     {
         $this->cli->quietly('systemctl daemon-reload');
-        $this->cli->quietly('systemctl restart caddy.service');
+        $this->linux->restartService('caddy');
     }
 
     /**
@@ -125,7 +125,7 @@ class Caddy
      */
     public function stop()
     {
-        $this->cli->quietly('systemctl stop caddy.service');
+        $this->linux->stopService('caddy');
     }
 
     /**
@@ -136,7 +136,7 @@ class Caddy
     public function uninstall()
     {
         $this->stop();
-        $this->cli->quietly('systemctl disable caddy.service');
+        $this->linux->disableService('caddy');
 
         $this->files->unlink($this->daemonPath);
         // remove .valet files
