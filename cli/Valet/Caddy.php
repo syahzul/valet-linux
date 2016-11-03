@@ -5,7 +5,7 @@ namespace Valet;
 class Caddy
 {
     public $cli;
-    public $files;systemctl disable 
+    public $files;
     public $daemonPath;
     public $linux;
 
