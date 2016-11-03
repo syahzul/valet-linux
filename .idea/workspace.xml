@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d9cefc2-5865-47d5-b60e-2bfeb7648bc2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli/valet.php" afterPath="$PROJECT_DIR$/cli/valet.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli/Valet/Linux.php" afterPath="$PROJECT_DIR$/cli/Valet/Linux.php" />
     </list>
     <ignored path="valet-linux.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,8 +37,8 @@
       <file leaf-file-name="valet.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/valet.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="491">
-              <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+            <state relative-caret-position="193">
+              <caret line="253" column="6" selection-start-line="253" selection-start-column="3" selection-end-line="253" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -96,8 +97,8 @@
       <file leaf-file-name="Linux.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cli/Valet/Linux.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="116" column="43" selection-start-line="116" selection-start-column="43" selection-end-line="116" selection-end-column="43" />
+            <state relative-caret-position="306">
+              <caret line="120" column="44" selection-start-line="120" selection-start-column="44" selection-end-line="120" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -106,8 +107,8 @@
       <file leaf-file-name="Ubuntu.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cli/Valet/Ubuntu.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="67">
-              <caret line="80" column="4" selection-start-line="80" selection-start-column="4" selection-end-line="106" selection-end-column="5" />
+            <state relative-caret-position="135">
+              <caret line="82" column="4" selection-start-line="82" selection-start-column="4" selection-end-line="82" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -138,12 +139,12 @@
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/cli/Valet/Valet.php" />
         <option value="$PROJECT_DIR$/cli/Valet/CommandLine.php" />
-        <option value="$PROJECT_DIR$/cli/Valet/Linux.php" />
         <option value="$PROJECT_DIR$/cli/Valet/Contracts/LinuxContract.php" />
         <option value="$PROJECT_DIR$/cli/Valet/Ubuntu.php" />
         <option value="$PROJECT_DIR$/cli/Valet/Arch.php" />
         <option value="$PROJECT_DIR$/cli/Valet/DnsMasq.php" />
         <option value="$PROJECT_DIR$/cli/valet.php" />
+        <option value="$PROJECT_DIR$/cli/Valet/Linux.php" />
       </list>
     </option>
   </component>
@@ -289,7 +290,7 @@
       <workItem from="1477993115075" duration="17000" />
       <workItem from="1478034091660" duration="932000" />
       <workItem from="1478116520616" duration="513000" />
-      <workItem from="1478163634593" duration="396000" />
+      <workItem from="1478163634593" duration="671000" />
     </task>
     <servers />
   </component>
@@ -299,7 +300,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7598000" />
+    <option name="totallyTimeSpent" value="7873000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="741" extended-state="6" />
@@ -683,14 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cli/Valet/Linux.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="116" column="43" selection-start-line="116" selection-start-column="43" selection-end-line="116" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cli/Valet/Contracts/LinuxContract.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -701,8 +694,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/Valet/Ubuntu.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="80" column="4" selection-start-line="80" selection-start-column="4" selection-end-line="106" selection-end-column="5" />
+        <state relative-caret-position="135">
+          <caret line="82" column="4" selection-start-line="82" selection-start-column="4" selection-end-line="82" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -723,10 +716,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cli/Valet/Linux.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="120" column="44" selection-start-line="120" selection-start-column="44" selection-end-line="120" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cli/valet.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+        <state relative-caret-position="193">
+          <caret line="253" column="6" selection-start-line="253" selection-start-column="3" selection-end-line="253" selection-end-column="6" />
           <folding />
         </state>
       </provider>

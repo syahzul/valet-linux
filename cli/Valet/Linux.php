@@ -116,6 +116,10 @@ class Linux implements LinuxContract
     {
         $this->distribution->enableService($services);
     }
+    public function disableService($services)
+    {
+        $this->distribution->disableService($services);
+    }
 
 
     /**
