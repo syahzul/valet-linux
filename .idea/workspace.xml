@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d9cefc2-5865-47d5-b60e-2bfeb7648bc2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli/Valet/Arch.php" afterPath="$PROJECT_DIR$/cli/Valet/Arch.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli/Valet/Contracts/LinuxContract.php" afterPath="$PROJECT_DIR$/cli/Valet/Contracts/LinuxContract.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli/Valet/DnsMasq.php" afterPath="$PROJECT_DIR$/cli/Valet/DnsMasq.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli/Valet/Linux.php" afterPath="$PROJECT_DIR$/cli/Valet/Linux.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli/Valet/Ubuntu.php" afterPath="$PROJECT_DIR$/cli/Valet/Ubuntu.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli/valet.php" afterPath="$PROJECT_DIR$/cli/valet.php" />
     </list>
     <ignored path="valet-linux.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,21 +33,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="valet.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="valet.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/valet.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+            <state relative-caret-position="491">
+              <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DnsMasq.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DnsMasq.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cli/Valet/DnsMasq.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="46" column="92" selection-start-line="46" selection-start-column="92" selection-end-line="46" selection-end-column="92" />
+            <state relative-caret-position="227">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -143,12 +138,12 @@
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/cli/Valet/Valet.php" />
         <option value="$PROJECT_DIR$/cli/Valet/CommandLine.php" />
-        <option value="$PROJECT_DIR$/cli/valet.php" />
         <option value="$PROJECT_DIR$/cli/Valet/Linux.php" />
         <option value="$PROJECT_DIR$/cli/Valet/Contracts/LinuxContract.php" />
         <option value="$PROJECT_DIR$/cli/Valet/Ubuntu.php" />
         <option value="$PROJECT_DIR$/cli/Valet/Arch.php" />
         <option value="$PROJECT_DIR$/cli/Valet/DnsMasq.php" />
+        <option value="$PROJECT_DIR$/cli/valet.php" />
       </list>
     </option>
   </component>
@@ -294,7 +289,7 @@
       <workItem from="1477993115075" duration="17000" />
       <workItem from="1478034091660" duration="932000" />
       <workItem from="1478116520616" duration="513000" />
-      <workItem from="1478163634593" duration="369000" />
+      <workItem from="1478163634593" duration="396000" />
     </task>
     <servers />
   </component>
@@ -304,7 +299,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7571000" />
+    <option name="totallyTimeSpent" value="7598000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="741" extended-state="6" />
@@ -664,14 +659,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cli/valet.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cli/includes/facades.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -730,8 +717,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/Valet/DnsMasq.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="46" column="92" selection-start-line="46" selection-start-column="92" selection-end-line="46" selection-end-column="92" />
+        <state relative-caret-position="227">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cli/valet.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="491">
+          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
           <folding />
         </state>
       </provider>

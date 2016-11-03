@@ -24,7 +24,7 @@ class UbuntuTest extends PHPUnit_Framework_TestCase
 
     public function test_apt_can_be_resolved_from_container()
     {
-        $this->assertInstanceOf(Ubuntu::class, resolve(UbuntuTest::class));
+        $this->assertInstanceOf(Ubuntu::class, resolve(self::class));
     }
 
     public function test_installed_returns_true_when_given_formula_is_installed()
