@@ -44,6 +44,8 @@ class PhpFpm
 
         $this->updateConfiguration();
 
+        $this->linux->enableServie($this->linux->getConfig('fpm-service'));
+
         $this->restart();
     }
 
