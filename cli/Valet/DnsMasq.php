@@ -44,6 +44,8 @@ class DnsMasq
 
         // $this->createDomainResolver($domain);
 
+        $this->linux->enableService('dnsmasq'); // We enable it so the service runs on start.
+
         $this->linux->restartService('dnsmasq');
     }
 

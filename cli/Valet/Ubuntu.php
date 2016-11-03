@@ -79,6 +79,35 @@ class Ubuntu implements LinuxContract
     }
 
     /**
+     * Enables the given Homebrew services.
+     *
+     * @param
+     */
+    public function enableService($services)
+    {
+        $services = is_array($services) ? $services : func_get_args();
+
+        foreach ($services as $service) {
+            $this->cli->quietly('sudo systemctl enable ' . $service);
+        }
+    }
+
+    /**
+     * Enables the given Homebrew services.
+     *
+     * @param
+     */
+    public function disableService($services)
+    {
+        $services = is_array($services) ? $services : func_get_args();
+
+        foreach ($services as $service) {
+            $this->cli->quietly('sudo systemctl disable ' . $service);
+        }
+    }
+
+
+    /**
      * Determine which version of PHP is linked in Homebrew.
      *
      * @return string

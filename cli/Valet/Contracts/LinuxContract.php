@@ -17,6 +17,10 @@ interface LinuxContract
 
     public function stopService($services);
 
+    public function enableService($services);
+
+    public function disableService($services);
+
     public function linkedPhp() :string;
 
     public function getConfig(string $value):string;

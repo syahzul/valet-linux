@@ -112,6 +112,12 @@ class Linux implements LinuxContract
         $this->distribution->restartService($services);
     }
 
+    public function enableService($services)
+    {
+        $this->distribution->enableService($services);
+    }
+
+
     /**
      * Stop the given Homebrew services.
      *
