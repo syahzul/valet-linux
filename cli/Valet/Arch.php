@@ -71,7 +71,7 @@ class Arch implements LinuxContract
         $services = is_array($services) ? $services : func_get_args();
 
         foreach ($services as $service) {
-            $this->cli->quietly('sudo systemctl enable ' . $service);
+            $this->cli->quietly('sudo systemctl enable '.$service);
         }
     }
 
@@ -85,7 +85,7 @@ class Arch implements LinuxContract
         $services = is_array($services) ? $services : func_get_args();
 
         foreach ($services as $service) {
-            $this->cli->quietly('sudo systemctl disable ' . $service);
+            $this->cli->quietly('sudo systemctl disable '.$service);
         }
     }
 
