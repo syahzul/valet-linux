@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Container\Container;
+use Illuminate\Container\Container;
 use Valet\Caddy;
 use Valet\Filesystem;
-use Illuminate\Container\Container;
 
 class CaddyTest extends PHPUnit_Framework_TestCase
 {
