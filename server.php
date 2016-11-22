@@ -36,9 +36,9 @@ $siteName = basename(
 
 if (strpos($siteName, 'www.') === 0) {
     $siteName = substr($siteName, 4);
-}
 
-/*
+}
+/**
  * Determine the fully qualified path to the site.
  */
 $valetSitePath = null;
