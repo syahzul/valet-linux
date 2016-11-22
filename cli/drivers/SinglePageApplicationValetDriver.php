@@ -1,4 +1,5 @@
 <?php
+
 class SinglePageApplicationValetDriver extends ValetDriver
 {
     /**
@@ -14,6 +15,7 @@ class SinglePageApplicationValetDriver extends ValetDriver
                $this->hasSpaDirectories($sitePath) &&
                $this->hasIndexHtmlFileAtRoot($sitePath);
     }
+
     /**
      * Determine if the incoming request is for a static file.
      *
@@ -31,8 +33,10 @@ class SinglePageApplicationValetDriver extends ValetDriver
         if (file_exists($staticFilePath = $sitePath.$uri)) {
             return $staticFilePath;
         }
+
         return false;
     }
+
     /**
      * Get the fully resolved path to the application's front controller.
      *
@@ -47,12 +51,15 @@ class SinglePageApplicationValetDriver extends ValetDriver
         if (is_dir($sitePath.'/dist')) {
             return $sitePath.'/dist/index.html';
         }
+
         return $sitePath.'/index.html';
     }
+
     /**
      * Check the app package.json file to see if valet drive is defined.
      *
      * @param string $sitePath
+     *
      * @return mixed
      */
     protected function driverDefinedInPackage($sitePath)
@@ -63,12 +70,15 @@ class SinglePageApplicationValetDriver extends ValetDriver
                 return true;
             }
         }
+
         return false;
     }
+
     /**
      * Check if the app has common spa directories.
      *
      * @param string $sitePath
+     *
      * @return bool
      */
     protected function hasSpaDirectories($sitePath)
@@ -76,10 +86,12 @@ class SinglePageApplicationValetDriver extends ValetDriver
         return file_exists($sitePath.'/package.json') &&
                file_exists($sitePath.'/node_modules');
     }
+
     /**
      * Check to see if the app has an index.html file in a common location.
      *
      * @param sring $sitePath
+     *
      * @return bool
      */
     protected function hasIndexHtmlFileAtRoot($sitePath)

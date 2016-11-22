@@ -202,7 +202,7 @@ class Site
      *
      * @return void
      */
-    function trustCertificate($crtPath, $url)
+    public function trustCertificate($crtPath, $url)
     {
         $this->cli->run(sprintf(
             'certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "%s" -i "%s"', $url, $crtPath
