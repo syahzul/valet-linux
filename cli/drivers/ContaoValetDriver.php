@@ -45,7 +45,7 @@ class ContaoValetDriver extends ValetDriver
      */
     public function frontControllerPath($sitePath, $siteName, $uri)
     {
-        if ($uri == '/install.php') {
+        if ($uri === '/install.php') {
             return $sitePath.'/web/install.php';
         }
 
