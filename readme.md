@@ -59,6 +59,29 @@ To update your Valet package just run: `composer global update`
 
 ## F.A.Q.
 
+**Having problems with .dev domains not pointing to 127.0.0.1?**
+Try this: thants to @adriaanzon for the guide
+Comment out this line in `/etc/NetworkManager/NetworkManager.conf`:
+
+```
+dns=default
+```
+
+Uncomment this line in `/etc/resolvconf.conf`
+
+```
+#name_servers=127.0.0.1
+```
+
+Append this to `/etc/dnsmasq.conf`
+
+```
+no-resolv
+server=8.8.8.8
+server=8.8.4.4
+```
+
+
 **Why is my preferred distribution not supported?**
 
 Well, not all distros work the same way, we need to test every distribution in order to release it to the public and also
