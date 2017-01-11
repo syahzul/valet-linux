@@ -60,7 +60,7 @@ To update your Valet package just run: `composer global update`
 ## F.A.Q.
 
 **Having problems with .dev domains not pointing to 127.0.0.1?**
-Try this: thants to @adriaanzon for the guide
+Try this: Thanks to @adriaanzon for the guide
 Comment out this line in `/etc/NetworkManager/NetworkManager.conf`:
 
 ```
