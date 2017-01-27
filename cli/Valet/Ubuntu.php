@@ -147,6 +147,11 @@ class Ubuntu implements LinuxContract
             // Caddy/Systemd
             'systemd-caddy'     => '/lib/systemd/system/caddy.service',
             'systemd-caddy-fpm' => '/var/run/php/php7.0-fpm.sock',
+            
+            // PHP 7.1 (not on official repos)
+            'php-71'            => 'php7.1',
+            'fpm71-service'     => 'php7.1-fpm',
+            'fpm71-config'      => '/etc/php/7.1/fpm/php-fpm.conf',
 
             // PHP 5.6
             'php-56'            => 'php5.6',
