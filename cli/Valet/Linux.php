@@ -33,9 +33,9 @@ class Linux implements LinuxContract
 
         if (file_exists($fedora_file) === true) {
             return new Fedora($this->cli, $this->files);
-        } else if (file_exists($ubuntu_file) === true) {
+        } elseif (file_exists($ubuntu_file) === true) {
             return new Ubuntu($this->cli, $this->files);
-        } else if (file_exists($arch_file) === true) {
+        } elseif (file_exists($arch_file) === true) {
             return new Arch($this->cli, $this->files);
         } else {  // default
             return new Ubuntu($this->cli, $this->files);

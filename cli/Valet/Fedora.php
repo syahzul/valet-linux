@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sunznx
  * Date: 2017-01-17
- * Time: 23:03:20
+ * Time: 23:03:20.
  */
 
 namespace Valet;
