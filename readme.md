@@ -14,6 +14,11 @@ Laravel Valet *for Linux* configures your system to always run [Caddy](https://c
 
 In other words, a blazing fast Laravel development environment that uses roughly 7mb of RAM. Valet *for Linux* isn't a complete replacement for Vagrant or Homestead, but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
 
+## Supported Linux Distributions
+    - Ubuntu and Derivates like: Linux Mint, elementaryOS, ZorinOS, etc
+    - Arch Linux and Derivates like: Manjaro, Astergos, etc
+    - Fedora and near Derivates
+
 ## Official Documentation
 
 Documentation for Valet can be found on the [Laravel website](http://laravel.com/docs/5.2/valet).
