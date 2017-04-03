@@ -5,10 +5,9 @@ abstract class ValetDriver
     /**
      * Determine if the driver serves the request.
      *
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
-     *
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return bool
      */
     abstract public function serves($sitePath, $siteName, $uri);
@@ -16,10 +15,9 @@ abstract class ValetDriver
     /**
      * Determine if the incoming request is for a static file.
      *
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
-     *
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return string|false
      */
     abstract public function isStaticFile($sitePath, $siteName, $uri);
@@ -27,10 +25,9 @@ abstract class ValetDriver
     /**
      * Get the fully resolved path to the application's front controller.
      *
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
-     *
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return string
      */
     abstract public function frontControllerPath($sitePath, $siteName, $uri);
@@ -38,10 +35,9 @@ abstract class ValetDriver
     /**
      * Find a driver that can serve the incoming request.
      *
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
-     *
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return ValetDriver|null
      */
     public static function assign($sitePath, $siteName, $uri)
@@ -63,19 +59,13 @@ abstract class ValetDriver
         $drivers[] = 'ContaoValetDriver';
         $drivers[] = 'KatanaValetDriver';
         $drivers[] = 'JoomlaValetDriver';
-        $drivers[] = 'ProcessWireValetDriver';
-        $drivers[] = 'SphinxValetDriver';
-        $drivers[] = 'ThemosisValetDriver';
-        $drivers[] = 'CsCartValetDriver';
-        $drivers[] = 'JekyllValetDriver';
         $drivers[] = 'DrupalValetDriver';
-        $drivers[] = 'ShopWareValetDriver';
-        $drivers[] = 'SinglePageApplicationValetDriver';
+        $drivers[] = 'Concrete5ValetDriver';
 
         $drivers[] = 'BasicValetDriver';
 
         foreach ($drivers as $driver) {
-            $driver = new $driver();
+            $driver = new $driver;
 
             if ($driver->serves($sitePath, $siteName, $driver->mutateUri($uri))) {
                 return $driver;
@@ -86,13 +76,12 @@ abstract class ValetDriver
     /**
      * Get all of the driver classes in a given path.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return array
      */
     public static function driversIn($path)
     {
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             return [];
         }
 
@@ -112,8 +101,7 @@ abstract class ValetDriver
     /**
      * Mutate the incoming URI.
      *
-     * @param string $uri
-     *
+     * @param  string  $uri
      * @return string
      */
     public function mutateUri($uri)
@@ -124,35 +112,43 @@ abstract class ValetDriver
     /**
      * Serve the static file at the given path.
      *
-     * @param string $staticFilePath
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
-     *
+     * @param  string  $staticFilePath
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return void
      */
     public function serveStaticFile($staticFilePath, $sitePath, $siteName, $uri)
     {
-        $extension = pathinfo($staticFilePath)['extension'];
+        /**
+         * Back story...
+         *
+         * PHP docs *claim* you can set default_mimetype = "" to disable the default
+         * Content-Type header. This works in PHP 7+, but in PHP 5.* it sends an
+         * *empty* Content-Type header, which is significantly different than
+         * sending *no* Content-Type header.
+         *
+         * However, if you explicitly set a Content-Type header, then explicitly
+         * remove that Content-Type header, PHP seems to not re-add the default.
+         *
+         * I have a hard time believing this is by design and not coincidence.
+         *
+         * Burn. it. all.
+         */
+        header('Content-Type: text/html');
+        header_remove('Content-Type');
 
-        $mimes = require __DIR__.'/../mimes.php';
-
-        $mime = isset($mimes[$extension]) ? $mimes[$extension] : 'application/octet-stream';
-
-        header('Content-Type: '.$mime);
-
-        readfile($staticFilePath);
+        header('X-Accel-Redirect: /static' . $staticFilePath);
     }
 
     /**
      * Determine if the path is a file and not a directory.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return bool
      */
     protected function isActualFile($path)
     {
-        return !is_dir($path) && file_exists($path);
+        return ! is_dir($path) && file_exists($path);
     }
 }

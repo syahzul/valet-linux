@@ -2,22 +2,31 @@
 
 namespace Valet;
 
-use Marcher\FluentCurl\FluentCurl;
+use DomainException;
+use Illuminate\Container\Container;
+use Valet\Contracts\PackageManager;
+use Valet\Contracts\ServiceManager;
+use Valet\PackageManagers\Apt;
+use Valet\PackageManagers\Dnf;
+use Valet\PackageManagers\Pacman;
+use Valet\ServiceManagers\Systemd;
+use Valet\ServiceManagers\LinuxService;
 
 class Valet
 {
-    public $cli;
-    public $files;
+    var $cli, $files;
 
-    public $valetBin = '/usr/local/bin/valet';
+    var $valetBin = '/usr/local/bin/valet';
+    var $sudoers  = '/etc/sudoers.d/valet';
+    var $github   = 'https://api.github.com/repos/cpriego/valet-linux/releases/latest';
 
     /**
      * Create a new Valet instance.
      *
-     * @param CommandLine $cli
-     * @param Filesystem  $files
+     * @param  CommandLine  $cli
+     * @param  Filesystem  $files
      */
-    public function __construct(CommandLine $cli, Filesystem $files)
+    function __construct(CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
         $this->files = $files;
@@ -28,11 +37,25 @@ class Valet
      *
      * @return void
      */
-    public function symlinkToUsersBin()
+    function symlinkToUsersBin()
     {
-        $this->cli->quietly('rm '.$this->valetBin);
+        $this->cli->run('ln -snf '.realpath(__DIR__.'/../../valet').' '.$this->valetBin);
+    }
 
-        $this->cli->run('ln -s '.realpath(__DIR__.'/../../valet').' '.$this->valetBin);
+    /**
+     * Unlink the Valet Bash script from the user's local bin
+     * and the sudoers.d entry
+     *
+     * @return void
+     */
+    function uninstall()
+    {
+        if ($this->files->exists($this->valetBin)) {
+            $this->files->unlink($this->valetBin);
+        }
+        if ($this->files->exists($this->sudoers)) {
+            $this->files->unlink($this->sudoers);
+        }
     }
 
     /**
@@ -40,24 +63,25 @@ class Valet
      *
      * @return void
      */
-    public function createSudoersEntry()
-    {
-        $this->files->ensureDirExists('/etc/sudoers.d');
+//     function createSudoersEntry()
+//     {
+//         $this->files->ensureDirExists('/etc/sudoers.d');
 
-        $this->files->put('/etc/sudoers.d/valet', 'Cmnd_Alias VALET = /usr/local/bin/valet *
-%sudo ALL=(root) NOPASSWD: VALET'.PHP_EOL);
+//         $this->files->put($this->sudoers, 'Cmnd_Alias VALET = '.$this->valetBin.' *
+// %sudo ALL=(root) NOPASSWD: VALET'.PHP_EOL.'
+// %wheel ALL=(root) NOPASSWD: VALET'.PHP_EOL);
 
-        $this->cli->quietly('chmod 0440 /etc/sudoers.d/valet');
-    }
+//         $this->cli->quietly('chmod 0440 '.$this->sudoers);
+//     }
 
     /**
      * Get the paths to all of the Valet extensions.
      *
      * @return array
      */
-    public function extensions()
+    function extensions()
     {
-        if (!$this->files->isDir(VALET_HOME_PATH.'/Extensions')) {
+        if (! $this->files->isDir(VALET_HOME_PATH.'/Extensions')) {
             return [];
         }
 
@@ -74,14 +98,79 @@ class Valet
     /**
      * Determine if this is the latest version of Valet.
      *
-     * @param string $currentVersion
-     *
+     * @param  string  $currentVersion
      * @return bool
      */
-    public function onLatestVersion($currentVersion)
+    function onLatestVersion($currentVersion)
     {
-        $response = (new FluentCurl())->setUrl('https://api.github.com/repos/jmarcher/valet-linux/releases/latest')->execute();
+        $response = \Httpful\Request::get($this->github)->send();
 
         return version_compare($currentVersion, trim($response->body->tag_name, 'v'), '>=');
+    }
+
+    /**
+     * Determine current environment
+     *
+     * @return void
+     */
+    function environmentSetup()
+    {
+        $this->packageManagerSetup();
+        $this->serviceManagerSetup();
+    }
+
+    /**
+     * Configure package manager
+     *
+     * @return void
+     */
+    function packageManagerSetup()
+    {
+        Container::getInstance()->bind(PackageManager::class, $this->getAvailablePackageManager());
+    }
+
+    /**
+     * Determine the first available package manager
+     *
+     * @return string
+     */
+    function getAvailablePackageManager()
+    {
+        return collect([
+            Apt::class,
+            Dnf::class,
+            Pacman::class,
+        ])->first(function ($pm) {
+            return resolve($pm)->isAvailable();
+        }, function () {
+            throw new DomainException("No compatible package manager found.");
+        });
+    }
+
+    /**
+     * Configure service manager
+     *
+     * @return void
+     */
+    function serviceManagerSetup()
+    {
+        Container::getInstance()->bind(ServiceManager::class, $this->getAvailableServiceManager());
+    }
+
+    /**
+     * Determine the first available service manager
+     *
+     * @return string
+     */
+    function getAvailableServiceManager()
+    {
+        return collect([
+            LinuxService::class,
+            Systemd::class,
+        ])->first(function ($pm) {
+            return resolve($pm)->isAvailable();
+        }, function () {
+            throw new DomainException("No compatible service manager found.");
+        });
     }
 }

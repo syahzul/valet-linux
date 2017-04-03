@@ -3,50 +3,64 @@
 namespace Valet;
 
 use DomainException;
-use Symfony\Component\Process\Process;
+use Valet\Contracts\PackageManager;
+use Valet\Contracts\ServiceManager;
 
 class PhpFpm
 {
-    public $linux;
+    public $pm;
+    public $sm;
     public $cli;
     public $files;
+    public $version;
 
     /**
      * Create a new PHP FPM class instance.
      *
-     * @param Linux       $linux
-     * @param CommandLine $cli
-     * @param Filesystem  $files
-     *
+     * @param  PackageManager $pm
+     * @param  ServiceManager $sm
+     * @param  CommandLine  $cli
+     * @param  Filesystem  $files
      * @return void
      */
-    public function __construct(Linux $linux, CommandLine $cli, Filesystem $files)
+    public function __construct(PackageManager $pm, ServiceManager $sm, CommandLine $cli, Filesystem $files)
     {
         $this->cli = $cli;
-        $this->linux = $linux;
+        $this->pm = $pm;
+        $this->sm = $sm;
         $this->files = $files;
+        $this->version = $this->getVersion($files);
     }
 
     /**
-     * Install and configure DnsMasq.
+     * Install and configure PHP FPM.
      *
      * @return void
      */
     public function install()
     {
-        if (!$this->linux->installed($this->linux->getConfig('php-latest')) &&
-            !$this->linux->installed($this->linux->getConfig('php-56')) &&
-            !$this->linux->installed($this->linux->getConfig('php-55'))) {
-            $this->linux->ensureInstalled($this->linux->getConfig('php-latest'));
+        if (! $this->pm->installed("php{$this->version}-fpm")) {
+            $this->pm->ensureInstalled("php{$this->version}-fpm");
         }
 
         $this->files->ensureDirExists('/var/log', user());
 
-        $this->updateConfiguration();
-
-        $this->linux->enableService($this->linux->getConfig('fpm-service'));
+        $this->installConfiguration();
 
         $this->restart();
+    }
+
+    /**
+     * Uninstall PHP FPM valet config.
+     *
+     * @return void
+     */
+    public function uninstall()
+    {
+        if ($this->files->exists($this->fpmConfigPath().'/valet.conf')) {
+            $this->files->unlink($this->fpmConfigPath().'/valet.conf');
+            $this->restart();
+        }
     }
 
     /**
@@ -54,14 +68,14 @@ class PhpFpm
      *
      * @return void
      */
-    public function updateConfiguration()
+    public function installConfiguration()
     {
-        $contents = $this->files->get($this->fpmConfigPath());
+        $contents = $this->files->get(__DIR__.'/../stubs/fpm.conf');
 
-        $contents = preg_replace('/^user = .+$/m', 'user = '.user(), $contents);
-        $contents = preg_replace('/^listen.owner = .+$/m', 'listen.owner = '.user(), $contents);
-
-        $this->files->put($this->fpmConfigPath(), $contents);
+        $this->files->putAsUser(
+            $this->fpmConfigPath().'/valet.conf',
+            str_replace(['VALET_USER', 'VALET_HOME_PATH'], [user(), VALET_HOME_PATH], $contents)
+        );
     }
 
     /**
@@ -71,9 +85,7 @@ class PhpFpm
      */
     public function restart()
     {
-        $this->stop();
-
-        $this->linux->restartService($this->linux->getConfig('fpm-service'));
+        $this->sm->restart($this->fpmServiceName());
     }
 
     /**
@@ -83,11 +95,44 @@ class PhpFpm
      */
     public function stop()
     {
-        $this->linux->stopService([
-            $this->linux->getConfig('fpm55-service'),
-            $this->linux->getConfig('fpm56-service'),
-            $this->linux->getConfig('fpm-service'),
-        ]);
+        $this->sm->stop($this->fpmServiceName());
+    }
+
+    /**
+     * PHP-FPM service status.
+     *
+     * @return void
+     */
+    public function status()
+    {
+        $this->sm->printStatus($this->fpmServiceName());
+    }
+
+    /**
+     * Get installed PHP version.
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return explode('php', basename($this->files->readLink('/usr/bin/php')))[1];
+    }
+
+    /**
+     * Determine php service name
+     *
+     * @return string
+     */
+    public function fpmServiceName()
+    {
+        $service = 'php'.$this->version.'-fpm';
+        $status = $this->sm->status($service);
+
+        if (strpos($status, 'not-found') || strpos($status, 'not be found')) {
+            return new DomainException("Unable to determine PHP service name.");
+        }
+
+        return $service;
     }
 
     /**
@@ -97,27 +142,15 @@ class PhpFpm
      */
     public function fpmConfigPath()
     {
-        if ($this->linux->linkedPhp() === $this->linux->getConfig('php-latest')) {
-            return $this->linux->getConfig('fpm-config');
-        } elseif ($this->linux->linkedPhp() === $this->linux->getConfig('php-56')) {
-            return $this->linux->getConfig('fpm56-config');
-        } elseif ($this->linux->linkedPhp() === $this->linux->getConfig('php-55')) {
-            return $this->linux->getConfig('fpm55-config');
-        } else {
-            throw new DomainException('Unable to find php-fpm config.');
-        }
-    }
-
-    public function getFpmService()
-    {
-        if ($this->linux->linkedPhp() === $this->linux->getConfig('php-latest')) {
-            return $this->linux->getConfig('fpm-service');
-        } elseif ($this->linux->linkedPhp() === $this->linux->getConfig('php-56')) {
-            return $this->linux->getConfig('fpm56-service');
-        } elseif ($this->linux->linkedPhp() === $this->linux->getConfig('php-55')) {
-            return $this->linux->getConfig('fpm55-service');
-        } else {
-            throw new DomainException('Unable to find php fpm service.');
-        }
+        return collect([
+            '/etc/php/'.$this->version.'/fpm/pool.d', // Ubuntu
+            '/etc/php'.$this->version.'/fpm/pool.d', // Ubuntu
+            '/etc/php-fpm.d', // Fedora
+            '/etc/php/php-fpm.d', // Arch
+        ])->first(function ($path) {
+            return is_dir($path);
+        }, function () {
+            throw new DomainException('Unable to determine PHP-FPM configuration folder.');
+        });
     }
 }
