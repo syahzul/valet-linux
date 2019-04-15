@@ -20,14 +20,14 @@ class Valet
     public $files;
 
     public $valetBin = '/usr/local/bin/valet';
-    public $sudoers  = '/etc/sudoers.d/valet';
-    public $github   = 'https://api.github.com/repos/cpriego/valet-linux/releases/latest';
+    public $sudoers = '/etc/sudoers.d/valet';
+    public $github = 'https://api.github.com/repos/cpriego/valet-linux/releases/latest';
 
     /**
      * Create a new Valet instance.
      *
-     * @param  CommandLine  $cli
-     * @param  Filesystem  $files
+     * @param CommandLine $cli
+     * @param Filesystem  $files
      */
     public function __construct(CommandLine $cli, Filesystem $files)
     {
@@ -47,7 +47,7 @@ class Valet
 
     /**
      * Unlink the Valet Bash script from the user's local bin
-     * and the sudoers.d entry
+     * and the sudoers.d entry.
      *
      * @return void
      */
@@ -64,7 +64,7 @@ class Valet
      */
     public function extensions()
     {
-        if (! $this->files->isDir(VALET_HOME_PATH.'/Extensions')) {
+        if (!$this->files->isDir(VALET_HOME_PATH.'/Extensions')) {
             return [];
         }
 
@@ -81,7 +81,8 @@ class Valet
     /**
      * Determine if this is the latest version of Valet.
      *
-     * @param  string  $currentVersion
+     * @param string $currentVersion
+     *
      * @return bool
      */
     public function onLatestVersion($currentVersion)
@@ -92,7 +93,7 @@ class Valet
     }
 
     /**
-     * Determine current environment
+     * Determine current environment.
      *
      * @return void
      */
@@ -103,7 +104,7 @@ class Valet
     }
 
     /**
-     * Configure package manager
+     * Configure package manager.
      *
      * @return void
      */
@@ -113,7 +114,7 @@ class Valet
     }
 
     /**
-     * Determine the first available package manager
+     * Determine the first available package manager.
      *
      * @return string
      */
@@ -124,16 +125,16 @@ class Valet
             Dnf::class,
             Pacman::class,
             Yum::class,
-            PackageKit::class
+            PackageKit::class,
         ])->first(function ($pm) {
             return resolve($pm)->isAvailable();
         }, function () {
-            throw new DomainException("No compatible package manager found.");
+            throw new DomainException('No compatible package manager found.');
         });
     }
 
     /**
-     * Configure service manager
+     * Configure service manager.
      *
      * @return void
      */
@@ -143,7 +144,7 @@ class Valet
     }
 
     /**
-     * Determine the first available service manager
+     * Determine the first available service manager.
      *
      * @return string
      */
@@ -155,7 +156,7 @@ class Valet
         ])->first(function ($pm) {
             return resolve($pm)->isAvailable();
         }, function () {
-            throw new DomainException("No compatible service manager found.");
+            throw new DomainException('No compatible service manager found.');
         });
     }
 }
