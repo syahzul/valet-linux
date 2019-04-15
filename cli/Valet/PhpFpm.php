@@ -17,10 +17,11 @@ class PhpFpm
     /**
      * Create a new PHP FPM class instance.
      *
-     * @param  PackageManager $pm
-     * @param  ServiceManager $sm
-     * @param  CommandLine  $cli
-     * @param  Filesystem  $files
+     * @param PackageManager $pm
+     * @param ServiceManager $sm
+     * @param CommandLine    $cli
+     * @param Filesystem     $files
+     *
      * @return void
      */
     public function __construct(PackageManager $pm, ServiceManager $sm, CommandLine $cli, Filesystem $files)
@@ -39,7 +40,7 @@ class PhpFpm
      */
     public function install()
     {
-        if (! $this->pm->installed("php{$this->version}-fpm")) {
+        if (!$this->pm->installed("php{$this->version}-fpm")) {
             $this->pm->ensureInstalled("php{$this->version}-fpm");
             $this->sm->enable($this->fpmServiceName());
         }
@@ -76,8 +77,8 @@ class PhpFpm
         $this->files->putAsUser(
             $this->fpmConfigPath().'/valet.conf',
             str_array_replace([
-                'VALET_USER' => user(),
-                'VALET_GROUP' => group(),
+                'VALET_USER'      => user(),
+                'VALET_GROUP'     => group(),
                 'VALET_HOME_PATH' => VALET_HOME_PATH,
             ], $contents)
         );
@@ -124,7 +125,7 @@ class PhpFpm
     }
 
     /**
-     * Determine php service name
+     * Determine php service name.
      *
      * @return string
      */
@@ -134,7 +135,7 @@ class PhpFpm
         $status = $this->sm->status($service);
 
         if (strpos($status, 'not-found') || strpos($status, 'not be found')) {
-            return new DomainException("Unable to determine PHP service name.");
+            return new DomainException('Unable to determine PHP service name.');
         }
 
         return $service;
